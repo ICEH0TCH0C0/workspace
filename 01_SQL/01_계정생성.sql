@@ -1,4 +1,4 @@
--- 사용자 계정 생성
+-- 사용자 계정 생성1
 CREATE USER c##REVIEW IDENTIFIED BY REVIEW;
 
 
