@@ -35,6 +35,7 @@ div[class$=ss]{
     background: pink;
 }
 
+/* 2. 자식 선택자와 후손 선택자 */
 /* 
     아이디가 test1인 요소들의 자식들 중 h4만 선택
 */
