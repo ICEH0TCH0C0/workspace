@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>선택자 우선순위</title>
+    <style>
+        h1{
+            background: royalblue;
+        }
+
+        h1{
+            background: yellowgreen;
+        }
+
+        #id1{
+            background: aquamarine;
+        }
+
+        /* 우선순위에 밀려 적용x */
+        .class{ 
+            color: skyblue;
+            background: turquoise;
+        }
+
+        /* !important로 가장 먼저 적용, 무시라는 의미를 가져 권장하지 않음 */
+        div{
+            color: black;
+            background: plum !important;
+        }
+    </style>
+</head>
+<body>
+    <h1>선택자 우선순위</h1>
+    <p>
+        기본적으로 css는 위에서 아래로 적용 <br>
+        동일한 요소를 다양한 선택자로 css를 부여한 경우 우선순위에 따라서 결졍 <br>
+        태그선택자 -> 클래스선택자 -> 아이디 선택자 -> 인라인 스타일 -> !important
+    </p>
+
+    <!-- 인라인 방식은 !improtant에 의해 적용x + 찾아다녀야하므로 잘 사용x -->
+    <div id="id1" class="class1" style="background: purple;">우선순위 테스트</div>
+</body>
+</html>
