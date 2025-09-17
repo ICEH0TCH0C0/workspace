@@ -12,6 +12,10 @@
 
         .small{ height: 250px; }
         .big{ height: 500px; }
+
+        h5{
+            margin: 0px;
+        }
     </style>
 </head>
 <body>
@@ -101,6 +105,46 @@
                 }
             }
             gildong.eat("피자", area2);
+        }
+    </script>
+
+    <br><br>
+
+    <h3>객체 배열을 사용한 다량의 데이터관리</h3>
+    <button onclick="test3();">실행</button>
+    <div id="area3" class="area big"></div>
+
+    <script>
+        function test3(){
+            // 학생 리스트 -> 서버로부터 데이터를 받으면 아래와 같이 객체의 배열 형태의 데이터를 받음
+            const stdList =[
+                {name: "홍길동", java: 75, db: 90, front: 100},
+                {name: "홍길서", java: 71, db: 91, front: 90},
+                {name: "홍길남", java: 72, db: 92, front: 80},
+                {name: "홍길북", java: 73, db: 93, front: 70},
+                {name: "홍길중", java: 74, db: 94, front: 60}
+            ]
+
+            //모든 학생의 이름, 총점, 평균정보를 area3요소에 나타내자.
+            for(let i=0; i<stdList.length; i++){
+                stdList[i].totalScore = function(){
+                    return this.java + this.db + this.front;
+                };
+
+                stdList[i].avgScore = function(){
+                    return this.totalScore() / 3;
+                };
+            }
+
+            const area3 = document.getElementById('area3');
+            area3.innerHTML = "";
+            for(let i=0; i<stdList.length; i++){
+                area3.innerHTML += `<div style="margin-bottom: 7px;">
+                                        <h5>이름 : ${stdList[i].name}</h5>
+                                        <h5>총점 : ${stdList[i].totalScore()}</h5>
+                                        <h5>평균 : ${stdList[i].avgScore()}</h5>
+                                    </div>`;
+            }
         }
     </script>
 </body>
