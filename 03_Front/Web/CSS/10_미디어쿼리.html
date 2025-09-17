@@ -23,7 +23,7 @@
             flex-direction: row; 
             gap: 0;
         }
-      
+    
         #content1 .nav{
             flex: 0 0 30%; 
             background: #a2c4dd;
@@ -71,14 +71,14 @@
         /* 
             @media(조건) 
             조건 : max-width -> 최대넓이(max-width아래에서만 해당 스타일 적용)
-                   min-width -> 최소넓이(min-width위에서만 해당 스타일 적용)
-                   screen -> 현재 화면의 크기 
+                    min-width -> 최소넓이(min-width위에서만 해당 스타일 적용)
+                    screen -> 현재 화면의 크기 
         */
         
         /* =========반응형===========
         /* 화면넓이가 0 ~ 1200px 일때 {}안에 스타일을 적용해라*/
 
-        @media (max-width: 1200px){
+        @media (max-width: 1200px) {
             #wrap{ width: 100%; }
 
             #content2 .article-box{ flex: 0 0 50% ;}
@@ -89,7 +89,7 @@
         }
 
         /* width가 768이하에서 적용 */
-        @media (max-width: 768px){
+        @media (max-width: 768px) {
             #content2{flex-wrap: wrap;}
             #content2 .article-box{ flex: 0 0 100%;}
         }
