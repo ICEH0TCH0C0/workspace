@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body{
+            max-width: 1000px;
+            width: 600px;
+            margin: 0 auto;
+        }
+
+        #calculator{
+            display: flex;
+            justify-content: left;
+            align-items: center;
+            flex-direction: row;
+        }
+
+        #calculator > input{
+            width: 90px;
+            border: 1px solid gray;
+            height: 25px;
+        }
+
+        #operator{
+            width: 30px;
+            height: 25px;
+            border: 1px solid gray;
+        }
+
+        #calculate{
+            width: 20px;
+            height: 25px;
+            border: 1px solid gray;
+        }
+
+        #result{
+            width: 90px;
+            border: 1px solid gray;
+            height: 25px
+        }
+    </style>
+</head>
+<body>
+    <h1>Practice 2</h1>
+    <div id="calculator">
+        <input type="number" id="firstNumber" name="firstNumber">
+        <select name="operator" id="operator">
+            <li>
+                <option value="+">+</option>
+            </li>
+            <li>
+                <option value="-">-</option>
+            </li>
+            <li>
+                <option value="*">*</option>
+            </li>
+            <li>
+                <option value="/">/</option>
+            </li>
+            <li>
+                <option value="%">%</option>
+            </li>
+        </select>
+        <input type="number" id="secondNumber" name="secondNumber">
+        <button id="calculate" onclick="calculate()">=</button>
+        <div id="result"></div>
+    </div>
+
+    <script>
+        function calculate(){
+            let firstNumber = document.getElementById('firstNumber').value;
+            let secondNumber = document.getElementById('secondNumber').value;
+            let operator = document.getElementById('operator').value;
+            let resultBox = document.getElementById('result');
+
+            let result = 0; 
+
+            firstNumber = parseInt(firstNumber);
+            secondNumber = parseInt(secondNumber);
+
+            resultBox.style.background = 'white';
+            resultBox.style.color = 'black';
+            switch(operator){
+                case '+':
+                    result = firstNumber + secondNumber;
+                    break;
+                case '-': 
+                    result = firstNumber - secondNumber;
+                    break;
+                case '*': 
+                    result = firstNumber * secondNumber;
+                    break;
+                case '/':
+                    if(secondNumber === 0){
+                        resultBox.style.background = 'red'; 
+                        resultBox.innerText = '연산불가';
+                        resultBox.style.color = 'white';
+                        return;
+                    }
+                    result = frameElement / secondNumber;
+                    break;
+                case '%':
+                        if(secondNumber === 0){
+                            resultBox.style.background = 'red'; 
+                            resultBox.innerText = '연산불가';
+                            resultBox.style.color = 'white';
+                            return;
+                    }
+                    result = firstNumber % secondNumber;
+                    break;
+            }
+
+            resultBox.innerText = result;
+        }
+    </script>
+</body>
+</html>

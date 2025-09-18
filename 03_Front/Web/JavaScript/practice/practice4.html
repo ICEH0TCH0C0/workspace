@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body{
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        #form{
+            display: flex;
+            flex-direction: column;
+        }
+
+        input{
+            margin-top: 10px;
+            margin-bottom: 10px;
+            height: 25px;
+            border: 1px solid slategray;
+        }
+
+        #form label{
+            margin-left: 10px;
+        }
+        
+        #form input[type='submit']{
+            width: 70px;
+            margin-left: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>practice3</h1>
+    <form action="" method="get" >
+        <fieldset id="form">
+            <legend>회원가입</legend>
+            <label for="id">아이디 : 
+                <input type="text" id="id" name="id" onblur="idCheck(this)">
+                <div id="idCheckTextBox" style="display: none;"></div>
+            </label>
+
+            <label for="pwd">비밀번호 : 
+                <input type="password" name="pwd" id="pwd">
+            </label>
+
+            <label for="pwdCheck">비밀번호 확인 : 
+                <input type="password" name="pwdCheck" id="pwdCheck" onblur="pwdChecked()">
+                <div id="pwdCheckTextBox" style="display: none;"></div>
+            </label>
+
+            <label for="name">이름 : 
+                <input type="text" name="name" id="name">
+            </label>
+
+            <input type="submit" onclick="submit()" value="회원가입">
+        </fieldset>
+    </form>
+
+    <script>
+        let arr =[{id:'user01', pwd:'pass01', name:'홍길동'},
+                {id:'user02', pwd:'pass02', name:'홍길서'},
+                {id:'user03', pwd:'pass03', name:'홍길남'},
+                {id:'user04', pwd:'pass04', name:'홍길북'}
+        ];
+        function submit(){
+            let id = document.getElementById('id').value;
+            let pwd = document.getElementById('pwd').value;
+            let pwdCheck = document.getElementById('pwdCheck').value;
+            let name = document.getElementById('name').value;
+            console.log(arr);
+            
+            if(id !== '' && pwd !== '' && pwdCheck !== '' && name !== ''){
+
+                if(arr.pop.id === id){
+                    alert('사용할 수 없는 아이디입니다.');
+                    return;
+                } else {
+                    arr.push(id);
+                }
+
+                if(pwd !== pwdCheck){
+                    alert('비밀번호가 일치하지 않습니다.');
+                    pwdCheck = '';
+                    //비밀번호 확인 포커스 이동
+                    return;
+                } else {
+                    arr.push(pwd);
+                }
+
+                alert(name+'(이름)님, 회원가입이 성공적으로 완료되었습니다^^');
+                console.log(name+'(이름)님, 회원가입이 성공적으로 완료되었습니다^^');
+                console.log(arr);
+            }
+
+        }
+
+        function idCheck(_id){
+            const idCheckTextBox = document.getElementById('idCheckTextBox');
+            const check = arr.find(item => item.id).id === _id.value;
+
+            if(check){
+                idCheckTextBox.style.display = 'block';
+                idCheckTextBox.innerHTML = '이미 존재하는 아이디입니다.';
+                return;
+            } else {
+                idCheckTextBox.style.display = 'block';
+                idCheckTextBox.innerHTML = '사용가능한 아이디입니다.';
+            }
+        }
+
+        //변수와 함수 이름이 겹치면 안됨
+        function pwdChecked(){
+            const pwdCheck = document.getElementById('pwdCheck').value;
+            const pwd = document.getElementById('pwd').value;
+
+            const check = pwd=== pwdCheck;
+            console.log(pwdCheck);
+            console.log(check);
+
+            if(pwd === pwdCheck){ 
+                const pwdCheckTextBox = document.getElementById('pwdCheckTextBox');
+                pwdCheckTextBox.style.display = 'block';
+                pwdCheckTextBox.innerHTML = '비밀번호가 일치합니다.';
+            }
+        }
+
+        
+    </script>
+</body>
+</html>

@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body{
+            max-width: 1000px;
+            width: 600px;
+            margin: 0 auto;
+        }
+
+        #category{
+            padding: 0;
+            margin: 0;
+            resize: none;
+            width: auto;
+            height: auto;
+            border: 1px solid red;
+            width: 100%;
+            height: 100px;
+        }
+        
+        .area{
+            padding: 0;
+            margin-top: 15px;
+            display: flex;
+            justify-content: center;
+            align-items: start;
+            flex-direction: column;
+        }
+    </style>
+</head>
+<body>
+    <h1>Practice1</h1>
+    <div>
+        <fieldset id="checkbox">
+            <legend>취미</legend>
+            <table>
+                <tr>
+                    <td>
+                        <label for="">
+                            <input type="checkbox" name="hobby" value="전체선택" id="selectAll">
+                            전체선택
+                        </label>
+                    </td>
+                    <td>
+                        <label for="">
+                            <input type="checkbox" value="종합" id="c1">
+                            종합
+                        </label>
+                    </td>
+                    </td>
+                    <td>
+                        <label for="">
+                            <input type="checkbox" value="소설" id="c2">
+                            소설
+                        </label>
+                    </td>
+                    </td>
+                    <td>
+                        <label for="">
+                            
+                            전체선택
+                        </label>
+                    </td>
+                    </td>
+                    <td>
+                        <label for="">
+                            <input type="checkbox" name="hobby" value="전체선택" id="selectAll">
+                            전체선택
+                        </label>
+                    </td>
+                    </td>
+                    <td>
+                        <label for="">
+                            <input type="checkbox" name="hobby" value="전체선택" id="selectAll">
+                            전체선택
+                        </label>
+                    </td>
+                    </td>
+                    <td>
+                        <label for="">
+                            <input type="checkbox" name="hobby" value="전체선택" id="selectAll">
+                            전체선택
+                        </label>
+                    </td>
+                    </td>
+                </tr>
+                <tr>
+
+                </tr>
+            </table>
+
+            <label for="c1">종합</label">
+
+            
+            <label for="c2">소설</label">
+
+            
+            <label for="c3">시/에세이</label">
+
+            <input type="checkbox" value="경제/경영" id="c3">
+            <label for="c3">경제/경영</label">
+
+            <input type="checkbox" value="자기계발" id="c4">
+            <label for="c4">자기계발</label">
+
+            <input type="checkbox" value="아동" id="c5">
+            <label for="c5">아동</label">
+
+            <input type="checkbox" value="여행" id="c6">
+            <label for="c6">여행</label">
+
+            <input type="checkbox" value="과학" id="c7">
+            <label for="c7">과학</label">
+
+            <input type="checkbox" value="역사" id="c8">
+            <label for="c8">역사</label">
+
+            <input type="checkbox" value="외국어" id="c9">
+            <label for="c9">외국어</label">
+
+            <input type="checkbox" value="컴퓨터" id="c10">
+            <label for="c10">컴퓨터</label">
+            
+            <input type="checkbox" value="만화" id="c11">
+            <label for="c11">만화</label">
+        </fieldset>
+    </div>
+    <div class="area" >
+        <button id="btn">카테고리 선택</button>
+        <div id="category"></div>
+    </div>
+    <script>
+        let checkbox = document.getElementById('checkbox');
+        let category = document.getElementById('category');
+        let btn = document.getElementById('btn');
+
+        let all = document.getElementById('selectAll');
+
+        let c1 = document.getElementById('c1');
+        let c2 = document.getElementById('c2');
+        let c3 = document.getElementById('c3');
+        let c4 = document.getElementById('c4');
+        let c5 = document.getElementById('c5');
+        let c6 = document.getElementById('c6');
+        let c7 = document.getElementById('c7');
+        let c8 = document.getElementById('c8');
+        let c9 = document.getElementById('c9');
+        let c10 = document.getElementById('c10');
+        let c11 = document.getElementById('c11');
+
+        btn.addEventListener('click', function(){
+            if(all.checked === true){
+                category.innerHTML = all.value + "<br>";
+            }
+        });
+    </script>
+</body>
+</html>
