@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{
+            box-sizing: border-box;
+            margin: 0;
+        }
+        body{
+            margin: 0 auto;
+            width: 600px;
+            max-width: 1000px;
+        }
+
+        fieldset > legend{
+            margin: 0 auto;
+        }
+        
+        #container{
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            gap: 30px;
+        }
+
+        #result{
+            display: none;
+            margin-top: 20px;
+            height: 80px;
+            background-color: whitesmoke;
+        }
+
+        #search-form{
+            padding: 12px;
+        }
+        
+        #search-input{
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: start;
+            gap: 18px;
+        }
+
+        #search-text{
+            width: calc(100% - 100px);
+            height: 25px;
+        }
+
+        .date{
+            width: 150px;
+            height: 25px;
+        }
+
+        #search-writer{
+            width: 200px;
+        }
+        
+        #search-btn{
+            width: 45px;
+        }
+    </style>
+</head>
+<body>
+    <h1>practice6</h1>
+    <fieldset>
+        <legend id="legend">검색할 항목을 선택하세요.</legend>
+        <div id="container">
+            <div>
+                <input type="radio" name="search" id="search">
+                <label for="search">제목</label>
+            </div>
+            <div>
+                <input type="radio" name="search" id="date">
+                <label for="date">날짜</label>
+            </div>
+            <div>
+                <input type="radio" name="search" id="writer">
+                <label for="writer">작성자</label>
+            </div>
+        </div>
+    </fieldset>
+    <div id="result"></div>
+    <script>
+        document.getElementById('search').onclick = function(){
+            const result = document.getElementById('result');
+            result.style.display = 'block';
+            result.innerHTML =`<form id="search-form">검색할 제목을 입력하세요 : <br>
+                                    <div id="search-input">
+                                        <input type="text" id="search-text">
+                                        <input type="submit" value="검색" id="search-btn">
+                                    </div>
+                                </form>`;
+        }
+
+        document.getElementById('date').onclick = function(){
+            const result = document.getElementById('result');
+            result.style.display = 'block';
+            result.innerHTML = `<form id="search-form">검색할 날짜를 선택하세요 : <br>
+                                    <div id="search-input">
+                                        <input type="date" class="date"> - 
+                                        <input type="date" class="date">
+                                        <input type="submit" value="검색" id="search-btn">
+                                    </div>
+                                </form>`;
+        }
+
+        document.getElementById('writer').onclick = function(){
+            const result = document.getElementById('result');
+            result.style.display = 'block';
+            result.innerHTML = `<form id="search-form">검색할 작성자의 아이디를 입력하세요 : <br>
+                                    <div id="search-input">
+                                        <input type="text" id="search-writer">
+                                        <input type="submit" value="검색" id="search-btn">
+                                    </div>
+                                </form>`;
+        }
+
+
+    </script>
+</body>
+</html>

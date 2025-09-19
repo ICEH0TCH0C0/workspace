@@ -4,6 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <script
+        src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+        crossorigin="anonymous">
+    </script>
     <style>
         .area{
             border: 1px solid black;
@@ -14,7 +19,8 @@
     </style>
 </head>
 <body>
-    <h4>문제1. 색상 선택후 변경 버튼을 클릭하면 색상이 변경되도록 만들어라</h4>
+
+    <!-- <h4>문제1. 색상 선택후 변경 버튼을 클릭하면 색상이 변경되도록 만들어라</h4>
 
     <div id="area1" class="area"></div>
     <input type="color" id="color">
@@ -39,6 +45,40 @@
             document.querySelector("#area2").style.width = width;
             document.querySelector("#area2").style.height = height;
         }
+    </script> -->
+
+    <h4>문제1. 색상 선택후 변경 버튼을 클릭하면 색상이 변경되도록 만들어라</h4>
+    <div id="area1" class="area"></div>
+    <input type="color" id="color">
+    <button id="btn1">변경</button>
+    <script>
+        $('#btn1').click(function(){
+            let color = $('#color').val();
+            $('#area1').css('background', color);
+
+        });
+    </script>
+
+    <h4>문제2. 버튼에 따른 크기조절이 가능하게 만들어 보세요.</h4>
+    <div id="area2" class="area"></div>
+    <button id="btn2">50X50</button>
+    <button id="btn3">100X100</button>
+    <button id="btn4">200X200</button>
+    <script>
+        $('#btn2').click(function(){
+            $('#area2').css('width', '50px');
+            $('#area2').css('height', '50px');
+        });
+
+        $('#btn3').click(function(){
+            $('#area2').css('width', '100px');
+            $('#area2').css('height', '100px');
+        });
+
+        $('#btn4').click(function(){
+            $('#area2').css('width', '200px');
+            $('#area2').css('height', '200px');
+        });
     </script>
 </body>
 </html>

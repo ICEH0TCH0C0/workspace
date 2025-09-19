@@ -7,119 +7,81 @@
     <style>
         *{
             box-sizing: border-box;
-            margin: 0;
-            padding: 0;
+        }
+        input{
+            width: 100px;
+            height: 30px;
+        }
+        select, button{
+            height: 30px;
         }
 
-        body{
-            max-width: 1000px;
-            width: 600px;
-            margin: 0 auto;
-        }
-
-        #calculator{
-            display: flex;
-            justify-content: left;
-            align-items: center;
-            flex-direction: row;
-        }
-
-        #calculator > input{
-            width: 90px;
-            border: 1px solid gray;
-            height: 25px;
-        }
-
-        #operator{
-            width: 30px;
-            height: 25px;
-            border: 1px solid gray;
-        }
-
-        #calculate{
-            width: 20px;
-            height: 25px;
-            border: 1px solid gray;
-        }
-
-        #result{
-            width: 90px;
-            border: 1px solid gray;
-            height: 25px
+        .error-result{
+            color: white;
+            background: red;
         }
     </style>
 </head>
 <body>
-    <h1>Practice 2</h1>
-    <div id="calculator">
-        <input type="number" id="firstNumber" name="firstNumber">
-        <select name="operator" id="operator">
-            <li>
-                <option value="+">+</option>
-            </li>
-            <li>
-                <option value="-">-</option>
-            </li>
-            <li>
-                <option value="*">*</option>
-            </li>
-            <li>
-                <option value="/">/</option>
-            </li>
-            <li>
-                <option value="%">%</option>
-            </li>
+    <h1>Practice3</h1>
+    <div class="container">
+        <input type="number" id="num1">
+        <select id="calcul-type">
+            <option value="+">+</option>
+            <option value="-">-</option>
+            <option value="*">*</option>
+            <option value="/">/</option>
+            <option value="%">%</option>
         </select>
-        <input type="number" id="secondNumber" name="secondNumber">
-        <button id="calculate" onclick="calculate()">=</button>
-        <div id="result"></div>
+        <input type="number" id="num2">
+        <button onclick="clickResult()">=</button>
+        <input type="text" readonly id="calcul-result">
     </div>
-
     <script>
-        function calculate(){
-            let firstNumber = document.getElementById('firstNumber').value;
-            let secondNumber = document.getElementById('secondNumber').value;
-            let operator = document.getElementById('operator').value;
-            let resultBox = document.getElementById('result');
+        function clickResult(){
+            //input1에 값과 input2의 값을 select기호로 연산하여
+            //결과를 input3에 출력
+            const number1 = Number(document.getElementById('num1').value);
+            const number2 = Number(document.getElementById('num2').value);
+            const resultEl = document.getElementById('calcul-result');
 
-            let result = 0; 
+            const typeValue = document.getElementById('calcul-type').value;
+            
+            if(number2 === 0 && (typeValue === '/' || typeValue === '%')){
+                //  resultEl.className = 'error-result';
+                resultEl.classList.add('error-result');
+                resultEl.value = "연산불가";
+            } else {
+                let result = calculator(number1, number2, typeValue);
+                resultEl.value = result;
+                //resultEl.className = "";
+                resultEl.classList.remove('error-result');
+            }
+        }
 
-            firstNumber = parseInt(firstNumber);
-            secondNumber = parseInt(secondNumber);
-
-            resultBox.style.background = 'white';
-            resultBox.style.color = 'black';
-            switch(operator){
+        function calculator(number1, number2, typeValue){
+            let result;
+            switch (typeValue) {
                 case '+':
-                    result = firstNumber + secondNumber;
+                    result = number1 + number2;
                     break;
-                case '-': 
-                    result = firstNumber - secondNumber;
+                case '-':
+                    result = number1 - number2;
                     break;
-                case '*': 
-                    result = firstNumber * secondNumber;
+                case '*':
+                    result = number1 * number2;
                     break;
                 case '/':
-                    if(secondNumber === 0){
-                        resultBox.style.background = 'red'; 
-                        resultBox.innerText = '연산불가';
-                        resultBox.style.color = 'white';
-                        return;
-                    }
-                    result = frameElement / secondNumber;
+                    result = number1 / number2;
                     break;
                 case '%':
-                        if(secondNumber === 0){
-                            resultBox.style.background = 'red'; 
-                            resultBox.innerText = '연산불가';
-                            resultBox.style.color = 'white';
-                            return;
-                    }
-                    result = firstNumber % secondNumber;
+                    result = number1 % number2;
+                    break;
+                default:
                     break;
             }
 
-            resultBox.innerText = result;
+            return result;
         }
     </script>
 </body>
