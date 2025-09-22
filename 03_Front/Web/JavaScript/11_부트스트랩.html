@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+
+    <style>
+        .pp-table tr,
+        .pp-table td{
+            font-size: 20px;
+            color: gray;
+        }
+    </style>
+</head>
+<body>
+    <table class="table table-striped pp-table">
+        <thead>
+            <tr>
+                <th>글번호</th>
+                <th>제목</th>
+                <th>작성자</th>
+                <th>조회수</th>
+                <th>작성일</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1</td>
+                <td>첫번째 게시글</td>
+                <td>user01</td>
+                <td>123</td>
+                <td>2025-02-14</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>두번째 게시글</td>
+                <td>user01</td>
+                <td>123</td>
+                <td>2025-02-14</td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>세번째 게시글</td>
+                <td>user01</td>
+                <td>123</td>
+                <td>2025-02-14</td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td>네번째 게시글</td>
+                <td>user01</td>
+                <td>123</td>
+                <td>2025-02-14</td>
+            </tr>
+            <tr>
+                <td>5</td>
+                <td>다섯번째 게시글</td>
+                <td>user01</td>
+                <td>123</td>
+                <td>2025-02-14</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal">
+    Open modal
+    </button>
+
+    <!-- The Modal -->
+    <div class="modal" id="myModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+        <!-- Modal Header -->
+        <div class="modal-header">
+            <h4 class="modal-title">Modal Heading</h4>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+
+        <!-- Modal body -->
+        <div class="modal-body">
+            Modal body..
+        </div>
+
+        <!-- Modal footer -->
+        <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+        </div>
+
+        </div>
+    </div>
+    </div>
+</body>
+</html>
