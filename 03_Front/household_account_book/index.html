@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>가계부</title>
+
+    <!-- 외부 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@500&display=swap" rel="stylesheet">
+
+    <!-- 내부 -->
+    <link rel="stylesheet" href="./style.css">
+
+</head>
+
+<body>
+    <div class="container">
+        <!-- **헤더 영역: 앱 제목, 현재 잔액 표시** -->
+        <header class="header">
+            <h1>가계부</h1>
+            <div class="summary">
+                <h6>현재 잔액</h6>
+                <span id="balance">0원</span>
+            </div>
+        </header>
+
+        <!-- **입력 영역: 내용, 금액, 수입/지출 선택, 추가 버튼** -->
+        <div class="input-container">
+            <input id="content-input" type="text" placeholder="내용을 입력하세요(예: 점심값, 월급...)">
+            <input id="amount-input" type="number" placeholder="금액을 입력하세요">
+        </div>
+
+        <div class="income-Expense-container">
+            <button id="income-btn" data-type="income">수입</button>
+            <button id="expense-btn" data-type="expense">지출</button>
+        </div>
+
+        <div class="add-container">
+            <button id="add-btn">추가하기</button>
+        </div>
+
+        <!-- **필터 영역: 전체/수입/지출 보기** -->
+        <div class="filter-buttons">
+            <button id="all-filter-btn" data-type="allFilter">전체</button>
+            <button id="income-filter-btn" data-type="incomeFilter">수입</button>
+            <button id="expense-filter-btn" data-type="expenseFilter">지출</button>
+        </div>
+
+        <!-- **요약 영역: 총 수입, 총 지출, 현재 잔액 표시** -->
+        <div class="filter-filed-container" id="filter-filed-container">
+            <div id="all-income-filed">
+                <span>총 수입</span>
+                <p id="filter-income">0원</p>
+            </div>
+            <div id="all-expense-filed">
+                <span>총 지출</span>
+                <p id="filter-expense">0원</p>
+            </div>
+            <div id="balance-filed">
+                <span>잔액</span>
+                <p id="filter-balance">0원</p>
+            </div>
+        </div>
+
+        <!-- **목록 영역: 내역(날짜, 내용, 금액, 타입) + 삭제 버튼** -->
+        <ul id="list"></ul>
+    </div>
+
+    <!-- 내부 -->
+    <script src="./script.js"></script>
+</body>
+</html>

@@ -1,0 +1,260 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    min-width: 600px;
+    font-family: "Noto Sans KR", sans-serif;
+    font-optical-sizing: auto;
+    font-style: normal;
+    min-height: 100vh;
+    padding: 20px;
+    background: linear-gradient(135deg, #94B4C1, #547792);
+}
+
+div{
+    width: 100%;
+}
+
+header{
+    font-size: 18px;
+    color: white;
+    text-align: center;
+    padding: 10px;
+}
+
+.container{
+    border: 1px solid none;
+    border-radius: 8px;
+    box-shadow: 0 20px 40px rgba(255, 245, 245, 0.336);
+    background: linear-gradient(135deg, #94B4C1, #547792);
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 600px;
+}
+
+.summary{
+    padding: 14px 0px;
+    font-size: 20px;
+}
+
+#balance{
+    font-size: 28px;
+    color: rgb(22, 102, 22);
+}
+
+.header{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: space-between;
+    border-bottom: 1px solid rgb(238, 238, 238);
+    padding: 0;
+}
+
+.input-container{
+    display: flex;
+    align-items: center;
+    background: white;
+    justify-content: space-around;
+    padding: 10px 0px;
+}
+
+.input-container > input{
+    padding: 10px;
+    font-size: 14px;
+    width: 250px;
+    border-radius: 8px;
+    outline: none;
+    transition: border-color 0.3s ease;
+    border: 2px solid #213448;
+    align-items: center;
+}
+
+.input-container > input:hover{
+    border: 2px solid #758596;
+}
+
+.income-Expense-container{
+    background: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    padding: 10px 0px;
+}
+
+.income-Expense-container button{
+    padding: 8px 14px;
+    font-size: 16px;
+    border-radius: 12px;
+    border: 1px solid rgb(238, 238, 238);
+    background: white;
+}
+
+.income-Expense-container button:hover{
+    cursor: pointer;
+    opacity: 0.9;
+    scale: 0.99;
+}
+
+.income-Expense-container button.clicked{
+    background: rgb(22, 102, 22);
+    color: white;
+}
+
+.add-container{
+    background: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    padding: 10px 0px;
+    border-bottom: 1px solid rgb(238, 238, 238);
+}
+
+.add-container button{
+    width: 100%;
+    margin: 0 20px;
+    padding: 8px 14px;
+    font-size: 14px;
+    border: 2px solid #213448;
+    background: linear-gradient(135deg, #94B4C1, #547792);
+    color: white;
+    font-size: 16px;
+}
+
+.add-container button:hover{
+    cursor: pointer;
+    opacity: 0.9;
+    scale: 0.99;
+}
+
+.filter-buttons{
+    background: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    padding: 10px 0px;
+    border-bottom: 1px solid rgb(238, 238, 238);
+}
+
+.filter-buttons button{
+    padding: 6px 12px;
+    font-size: 16px;
+    border-radius: 12px;
+    border: 1px solid rgb(238, 238, 238);
+    background: white;
+}
+
+.filter-buttons button:hover{
+    cursor: pointer;
+    opacity: 0.9;
+    scale: 0.99;
+}
+
+.filter-buttons > button.clicked{
+    background: rgb(22, 102, 22);
+    color: white;
+}
+
+.filter-filed-container{
+    height: 150px;
+    background: rgb(238, 238, 238);
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    border-bottom: 1px solid rgb(238, 238, 238);
+}
+
+.filter-filed-container > div{
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+#filter-income, 
+#filter-balance{
+    color: rgb(22, 102, 22);
+}
+
+#filter-expense{
+    color: crimson;
+}
+
+#list{
+    width: 100%;
+    background: white;
+}
+
+.balance-item-content{
+    border-bottom: 1px solid rgb(238, 238, 238);
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 14px;
+}
+
+#date{
+    font-size: 12px;
+    color: gray;
+}   
+
+.income{
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    gap: 10px;
+}
+
+.income > p{
+    color: rgb(22, 102, 22);
+}
+
+.income > button{
+    padding: 2px 8px;
+    font-size: 14px;
+    border-radius: 4px;
+    border: none;
+    background: rgb(252, 81, 115);
+    color: white;
+}
+
+.income > button:hover{
+    cursor: pointer;
+    opacity: 0.9
+}
+
+.expense{
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    gap: 10px;
+}
+
+.expense > p{
+    color: crimson;
+}
+
+.expense > button{
+    padding: 2px 8px;
+    font-size: 14px;
+    border-radius: 4px;
+    border: none;
+    background: rgb(252, 81, 115);
+    color: white;
+}
+
+.expense > button:hover{
+    cursor: pointer;
+    opacity: 0.9
+}

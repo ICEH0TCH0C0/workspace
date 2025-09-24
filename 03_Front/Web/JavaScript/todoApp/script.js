@@ -38,6 +38,9 @@ function bindEvents() {
     const addBtn = document.getElementById('todo-add-btn');
     addBtn.addEventListener('click', addTodo);
 
+    // todoInput 요소에서 키보드 입력 이벤트를 감지
+    // e: 발생한 keydown 이벤트 객체
+    // e.key가 'Enter'일 경우, 즉 사용자가 엔터 키를 눌렀을 때 addTodo 함수를 호출
     todoInput.addEventListener('keydown', function(e){
         if(e.key === 'Enter'){
             addTodo();
@@ -47,6 +50,10 @@ function bindEvents() {
     clearCompletedBtn.addEventListener('click', clearCompletedTodos);
 
     //필터 버튼들을 가져와서 이벤트를 등록
+    // 각 필터 버튼에 클릭 이벤트 리스너를 추가
+    // ev: 발생한 click 이벤트 객체
+    // ev.target은 클릭된 실제 버튼 요소를 가리킴
+    // 클릭된 버튼의 data-filter 속성 값을 setFilter 함수에 전달하여 필터 상태를 변경
     filterBtns.forEach(function(btn){
         btn.addEventListener('click', function(ev){
             setFilter(ev.target.dataset.filter);
@@ -55,16 +62,17 @@ function bindEvents() {
 }
 
 //=========== 데이터 조작 함수 =======================
+//완료된 모록을 삭제하는 함수
 function clearCompletedTodos(){
     let newTodos = [];
 
     for(let todo of todos){
-        if(!todo.completed) {
+        if(!todo.completed) { //true
             newTodos.push(todo); //완료되지 않은 목록만 추가
         }
     }
 
-    todos = newTodos;
+    todos = newTodos; //todos에 true인 값들만 저장
     saveTodos();
     render(); //화면 업데이트
 }
@@ -88,11 +96,12 @@ function addTodo() {
     render(); //할일목록을 기준으로 UI에 적용
 }
 
+//목록 삭제 버튼 함수
 function deleteTodo(id){
     //해당 ID를 목록에서 제거.
     let newTodo = [];
-    for(let todo of todos){
-        if(todo.id === id)
+    for(let todo of todos){ //값만 필요할 경우 사용하는 for..of
+        if(todo.id === id) //매개변수의 id와 같은 todo 배열의 id를 찾아 newTodo에 대입
             continue;
 
         newTodo.push(todo);
@@ -103,6 +112,7 @@ function deleteTodo(id){
     render(); //할일목록을 기준으로 UI에 적용
 }
 
+//checkBox 토글 함수
 function toggleTodo(id){
     //해당 ID를 통해서 할일을 찾아 완료상태 -> 미완료, 미완료 -> 완료 변경.
     for(let todo of todos){
@@ -122,14 +132,14 @@ function getFilteredTodos(){
     if(filterState === 'active'){
         //미완료목록만 filteredTodos에 담김
         for(let todo of todos){
-            if(!todo.completed){
+            if(!todo.completed){ //true
                 filteredTodos.push(todo);
             }
         }
     } else if(filterState === 'completed'){
         //완료목록만 filteredTodos에 담김
         for(let todo of todos){
-            if(todo.completed){
+            if(todo.completed){ //false
                 filteredTodos.push(todo);
             }
         }
@@ -165,11 +175,12 @@ function render() {
     updateClearButton();
 }
 
+//목록이 없으면 todo-list에 출력
 function emptyStateRender(){
-    const emptyEl = document.createElement('div');
-    emptyEl.className = 'empty-state';
-    emptyEl.innerHTML = '할 일이 없습니다.'
-    todoList.appendChild(emptyEl);
+    const emptyEl = document.createElement('div'); //div 생성
+    emptyEl.className = 'empty-state'; //class명 추가
+    emptyEl.innerHTML = '할 일이 없습니다.' // html에 텍스트를 배치
+    todoList.appendChild(emptyEl); //자식에게 추가
 }
 
 function todoItemRender(todo) {
@@ -198,7 +209,7 @@ function updateCount(){
     const todoCount = document.getElementById('todo-count');
     let count = 0;
     for(let todo of todos){
-        if(!todo.completed) count++;
+        if(!todo.completed) count++; //true
     }
 
     todoCount.innerHTML = `${count}개 남음`;
@@ -207,7 +218,7 @@ function updateCount(){
 function updateClearButton(){
     let isView = 'none';
     for(let todo of todos){
-        if(todo.completed) {
+        if(todo.completed) { //false 
             isView = 'block';
             break;
         }
