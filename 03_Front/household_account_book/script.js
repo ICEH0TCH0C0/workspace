@@ -13,7 +13,15 @@ const incomeExpenseBtn = document.querySelectorAll('.income-Expense-container bu
 //전체, 총 수입, 총 지출 필터 변환 버튼
 const filterBtn = document.querySelectorAll('.filter-buttons button');
 
-//===================================================================
+//balance의 값을 나타낼 텍스트 Id
+const balanceAll = document.getElementById('filter-balance');
+const balanceHeader = document.getElementById('balance');
+
+//수입, 지출을 나타낼 텍스트 Id
+const incomeAll = document.getElementById('filter-income');
+const expenseAll = document.getElementById('filter-expense');
+
+//=========================== html이 시작과 동시에 실행될 함수 ==================================
 //DOM이 모두 그려지면 init 함수 시작
 document.addEventListener('DOMContentLoaded', init);
 
@@ -115,8 +123,6 @@ function balanceItemRender(balance){
 
 //balance의 값을 받고 색상 변경 후 화면에 띄움
 function updateBalanceDisplay(balance){
-    const balanceAll = document.getElementById('filter-balance');
-    const balanceHeader = document.getElementById('balance');
 
     let color = 'black';
 
@@ -137,8 +143,6 @@ function updateBalanceDisplay(balance){
 
 //income과 expense를 계산후 화면의 띄우기
 function updateSummary(){
-    const incomeAll = document.getElementById('filter-income');
-    const expenseAll = document.getElementById('filter-expense');
 
     let income = 0;
     let expense = 0;
@@ -164,7 +168,6 @@ function updateSummary(){
 }
 
 //====================== 데이터 관리 =============================
-
 function getFilteredBalances(){
     let filteredBalances = [];
 
@@ -188,6 +191,7 @@ function getFilteredBalances(){
 function addIncomeExpense(){
     const text = document.getElementById('content-input').value.trim();
     const amount = document.getElementById('amount-input').value.trim();
+
     let type = incomeExpenseType; // 선택된 타입 사용
     
     if(!text || !amount) return;
