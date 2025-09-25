@@ -8,16 +8,9 @@ let list = document.getElementById('list');
 document.getElementById('all-filter-btn').classList.add('clicked');
 
 //수입, 지출 변환 버튼
-// const incomeBtn = document.getElementById('income-btn');
-// const expenseBtn = document.getElementById('expense-btn');
-
 const incomeExpenseBtn = document.querySelectorAll('.income-Expense-container button');
 
 //전체, 총 수입, 총 지출 필터 변환 버튼
-// const allfilterbtn = document.getElementById('all-filter-btn');
-// const incomefilterbtn = document.getElementById('income-filter-btn');
-// const expensefilterbtn = document.getElementById('expense-filter-btn');
-
 const filterBtn = document.querySelectorAll('.filter-buttons button');
 
 //===================================================================
@@ -29,11 +22,7 @@ function init(){
     render();
 }
 
-function render() {
-    //모두 지우기
-    list.innerHTML = ""; 
-
-    //새로운 배열 생성하여 type에 맞는 객체 담기
+function getFilteredBalances(){
     let filteredBalances = [];
 
     //필터링
@@ -49,13 +38,23 @@ function render() {
         filteredBalances = balances; // 모든 데이터를 그대로 사용
     }
 
+    return filteredBalances;
+}
+
+function render() {
+    //모두 지우기
+    list.innerHTML = ""; 
+
+    //새로운 배열 생성하여 type에 맞는 객체 담기
+    let filteredBalances = getFilteredBalances();
+
     //리스트 반복 생성
     filteredBalances.forEach(function(balance) {
         balanceItemRender(balance); 
     });
 
     //계산
-    filterItemRender(); 
+    updateSummary(); 
 }
 
 //버튼 이벤트들
@@ -68,20 +67,10 @@ function bindEvents(){
         btn.addEventListener('click', handleIncomeExpenseTypeClick);
     });
 
-    // incomeBtn.addEventListener('click', handleIncomeExpenseTypeClick);
-
-    // expenseBtn.addEventListener('click', handleIncomeExpenseTypeClick);
-
     //클릭시 버튼 생상 유지 및 데이터 타입 가져오기
     filterBtn.forEach(function(btn){
         btn.addEventListener('click', handleTypeClick);
     });
-
-    // allfilterbtn.addEventListener('click', handleTypeClick);
-
-    // incomefilterbtn.addEventListener('click', handleTypeClick);
-
-    // expensefilterbtn.addEventListener('click', handleTypeClick);
 }
 
 //수입과 수출 버튼의 타입에 따른 색상과 타입 데이터 가져오기
@@ -95,18 +84,10 @@ function handleIncomeExpenseTypeClick(event) {
         } else {
             btn.classList.remove('clicked');
         }
-    })
-}
+    });
 
-//     //수입, 지출 타입에 따른 버튼 변환
-//     if (incomeExpenseType === 'income') {
-//         incomeBtn.classList.add('clicked');
-//         expenseBtn.classList.remove('clicked');
-//     } else {
-//         expenseBtn.classList.add('clicked');
-//         incomeBtn.classList.remove('clicked');
-//     }
-// }
+    render();
+}
 
 //전체, 수입, 지출 타입과 색상 데이터 가져오기
 function handleTypeClick(event) {
@@ -121,49 +102,24 @@ function handleTypeClick(event) {
         }
     });
 
-    //전체, 수입, 지출 타입에 따른 버튼 변환
-    // if (filterType === 'allFilter') {
-    //     allfilterbtn.classList.add('clicked');
-    //     incomefilterbtn.classList.remove('clicked');
-    //     expensefilterbtn.classList.remove('clicked');
-
-    // } else if (filterType === 'incomeFilter') {
-    //     incomefilterbtn.classList.add('clicked');
-    //     allfilterbtn.classList.remove('clicked');
-    //     expensefilterbtn.classList.remove('clicked');
-
-    // } else if (filterType === 'expenseFilter') {
-    //     expensefilterbtn.classList.add('clicked');
-    //     allfilterbtn.classList.remove('clicked');
-    //     incomefilterbtn.classList.remove('clicked');
-    // }
-    
     render();
 }
 
 //==================================================
 //리스트 생성 함수
 function balanceItemRender(balance){
-    //오퍼레이터 추가
-    let operator = '';
-    if(balance.type === 'income') {operator = '+';}
-    else {operator = '-';}
 
     //리스트 생성
     const balanceItem = document.createElement('li');
-    balanceItem.className = 'balance-item';
-    balanceItem.innerHTML = `<div class="balance-item-content">
-                                <div class="balance-list-content">
-                                    <p id="date">${balance.date}</p>
-                                    <p id="description">${balance.description}</p>
-                                </div>
-                                <div class="${balance.type === 'income' ? 'income' : 'expense'}">
-                                    <p>${operator} ${balance.amount.toLocaleString()}원</p>
-                                    <button class="delete-btn">삭제</button>
-                                </div>
+    balanceItem.className = 'balance-item-content';
+    balanceItem.innerHTML = `<div>
+                                <p id="date">${balance.date}</p>
+                                <p id="description">${balance.description}</p>
+                            </div>
+                            <div class="${balance.type === 'income' ? 'income' : 'expense'}">
+                                <p>${balance.type === 'income' ? operator = '+' : operator = '-'} ${balance.amount.toLocaleString()}원</p>
+                                <button class="delete-btn">삭제</button>
                             </div>`;
-    const balanceItemContent = balanceItem.querySelector('.balance-item-content');
-    
     //삭제 버튼
     const deleteBtn = balanceItem.querySelector('.delete-btn');
     deleteBtn.addEventListener('click', function(){
@@ -171,14 +127,35 @@ function balanceItemRender(balance){
     });
 
     //추가
-    list.appendChild(balanceItemContent);
+    list.appendChild(balanceItem);
 }
 
-function filterItemRender(){
-    const incomeAll = document.getElementById('filter-income');
-    const expenseAll = document.getElementById('filter-expense');
+//balance의 값을 받고 색상 변경 후 화면에 띄움
+function updateBalanceDisplay(balance){
     const balanceAll = document.getElementById('filter-balance');
     const balanceHeader = document.getElementById('balance');
+
+    let color = 'black';
+
+    if(balance < 0){
+        color = 'crimson';
+    } else if(balance > 0){
+        color = 'rgb(22, 102, 22)';
+    } else {
+        color = 'black';
+    }
+
+    balanceHeader.style.color = color;
+    balanceAll.style.color = color;
+
+    balanceHeader.innerText = balance.toLocaleString() + '원';
+    balanceAll.innerText = balance.toLocaleString() + '원';
+}
+
+//income과 expense를 계산후 화면의 띄우기
+function updateSummary(){
+    const incomeAll = document.getElementById('filter-income');
+    const expenseAll = document.getElementById('filter-expense');
 
     let income = 0;
     let expense = 0;
@@ -195,47 +172,12 @@ function filterItemRender(){
     //잔액 계산
     const balance = income - expense;
 
-    // if(balance < 0){
-    //     balanceHeader.classList.add('color-crimson');
-    //     balanceAll.classList.add('color-crimson');
-
-    // } else if(balance > 0){
-    //     balanceHeader.classList.add('color-green');
-    //     balanceAll.classList.add('color-green');
-    // } else {
-    //     balanceHeader.classList.add('color-black');
-    //     balanceAll.classList.add('color-black');
-    // }
-
-    // balanceHeader.innerText = balance.toLocaleString() + '원';
-    // balanceAll.innerText = balance.toLocaleString() + '원';
-
-    if(balance < 0){
-        balanceHeader.style.color = 'crimson';
-        balanceAll.style.color = 'crimson';
-
-        balanceHeader.innerText = balance.toLocaleString() + '원';
-        balanceAll.innerText = balance.toLocaleString() + '원';
-    } else if(balance > 0){
-        balanceHeader.style.color = 'rgb(22, 102, 22)';
-        balanceAll.style.color = 'rgb(22, 102, 22)';
-
-        balanceHeader.innerText = balance.toLocaleString() + '원';
-        balanceAll.innerText = balance.toLocaleString() + '원';
-    } else {
-        balanceHeader.style.color = 'black';
-        balanceAll.style.color = 'black';
-
-        balanceHeader.innerText = balance.toLocaleString() + '원';
-        balanceAll.innerText = balance.toLocaleString() + '원';
-    }
+    //balance의 색상을 변경하여 화면에 띄움
+    updateBalanceDisplay(balance);
 
     //toLocaleString() 금액 포맷 3자리마다 , 추가
     incomeAll.innerText = income.toLocaleString() + '원';
     expenseAll.innerText = expense.toLocaleString() + '원';
-
-    //local에 balances 저장
-    saveBalances();
 }
 
 //데이터를 리스트에 추가 

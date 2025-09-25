@@ -14,6 +14,10 @@ body{
     background: linear-gradient(135deg, #94B4C1, #547792);
 }
 
+ul, li, ol{
+    list-style: none;
+}
+
 div{
     width: 100%;
 }
@@ -164,7 +168,7 @@ header{
     color: white;
 }
 
-.filter-filed-container{
+.summary-container{
     height: 150px;
     background: rgb(238, 238, 238);
     display: flex;
@@ -173,7 +177,7 @@ header{
     border-bottom: 1px solid rgb(238, 238, 238);
 }
 
-.filter-filed-container > div{
+.summary-container > div{
     margin: 0 auto;
     display: flex;
     flex-direction: column;
@@ -188,14 +192,6 @@ header{
 #filter-expense{
     color: crimson;
 }
-
-/* .balance.color-crimson{
-    color: crimson;
-}
-
-.balance.color-green{
-    color: rgb(22, 102, 22);
-} */
 
 #list{
     width: 100%;
