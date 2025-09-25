@@ -14,12 +14,14 @@ const incomeExpenseBtn = document.querySelectorAll('.income-Expense-container bu
 const filterBtn = document.querySelectorAll('.filter-buttons button');
 
 //balance의 값을 나타낼 텍스트 Id
-const balanceAll = document.getElementById('filter-balance');
+const balanceAll = document.getElementById('balance-total');
 const balanceHeader = document.getElementById('balance');
 
 //수입, 지출을 나타낼 텍스트 Id
-const incomeAll = document.getElementById('filter-income');
-const expenseAll = document.getElementById('filter-expense');
+// const total = document.querySelectorAll('.total');
+
+const incomeTotal = document.getElementById('income-total');
+const expenseTotal = document.getElementById('expense-total');
 
 //=========================== html이 시작과 동시에 실행될 함수 ==================================
 //DOM이 모두 그려지면 init 함수 시작
@@ -104,7 +106,7 @@ function balanceItemRender(balance){
     const balanceItem = document.createElement('li');
     balanceItem.className = 'balance-item-content';
     balanceItem.innerHTML = `<div>
-                                <p id="date">${balance.date}</p>
+                                <p class="date">${balance.date}</p>
                                 <p id="description">${balance.description}</p>
                             </div>
                             <div class="${balance.type === 'income' ? 'income' : 'expense'}">
@@ -124,18 +126,16 @@ function balanceItemRender(balance){
 //balance의 값을 받고 색상 변경 후 화면에 띄움
 function updateBalanceDisplay(balance){
 
-    let color = 'black';
+    balanceHeader.classList.remove('plus','minus');
+    balanceAll.classList.remove('plus','minus');
 
     if(balance < 0){
-        color = 'crimson';
+        balanceHeader.classList.add('minus');
+        balanceAll.classList.add('minus');
     } else if(balance > 0){
-        color = 'rgb(22, 102, 22)';
-    } else {
-        color = 'black';
+        balanceHeader.classList.add('plus');
+        balanceAll.classList.add('plus');
     }
-
-    balanceHeader.style.color = color;
-    balanceAll.style.color = color;
 
     balanceHeader.innerText = balance.toLocaleString() + '원';
     balanceAll.innerText = balance.toLocaleString() + '원';
@@ -162,9 +162,13 @@ function updateSummary(){
     //balance의 색상을 변경하여 화면에 띄움
     updateBalanceDisplay(balance);
 
+    //클래스 추가
+    incomeTotal.classList.add('income');
+    expenseTotal.classList.add('expense');
+
     //toLocaleString() 금액 포맷 3자리마다 , 추가
-    incomeAll.innerText = income.toLocaleString() + '원';
-    expenseAll.innerText = expense.toLocaleString() + '원';
+    incomeTotal.innerText = income.toLocaleString() + '원';
+    expenseTotal.innerText = expense.toLocaleString() + '원';
 }
 
 //====================== 데이터 관리 =============================

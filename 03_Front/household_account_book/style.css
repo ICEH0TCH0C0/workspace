@@ -185,12 +185,20 @@ header{
     gap: 10px;
 }
 
-#filter-income{
+.total.income{
     color: rgb(22, 102, 22);
 }
 
-#filter-expense{
+.total.expense{
     color: crimson;
+}
+
+.balance.plus{
+    color: rgb(22, 102, 22);
+}
+
+.balance.minus{
+    color: crimson
 }
 
 #list{
@@ -207,7 +215,7 @@ header{
     font-size: 14px;
 }
 
-#date{
+.date{
     font-size: 12px;
     color: gray;
 }   
