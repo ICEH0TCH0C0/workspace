@@ -7,14 +7,18 @@ let filterType = 'allFilter'; // 기본값으로 'all' 설정
 let list = document.getElementById('list');
 document.getElementById('all-filter-btn').classList.add('clicked');
 
-//총 수입, 총 지출 변환 버튼
-const incomeBtn = document.getElementById('income-btn');
-const expenseBtn = document.getElementById('expense-btn');
+//수입, 지출 변환 버튼
+// const incomeBtn = document.getElementById('income-btn');
+// const expenseBtn = document.getElementById('expense-btn');
+
+const incomeExpenseBtn = document.querySelectorAll('.income-Expense-container button');
 
 //전체, 총 수입, 총 지출 필터 변환 버튼
-const allfilterbtn = document.getElementById('all-filter-btn');
-const incomefilterbtn = document.getElementById('income-filter-btn');
-const expensefilterbtn = document.getElementById('expense-filter-btn');
+// const allfilterbtn = document.getElementById('all-filter-btn');
+// const incomefilterbtn = document.getElementById('income-filter-btn');
+// const expensefilterbtn = document.getElementById('expense-filter-btn');
+
+const filterBtn = document.querySelectorAll('.filter-buttons button');
 
 //===================================================================
 //DOM이 모두 그려지면 init 함수 시작
@@ -60,52 +64,79 @@ function bindEvents(){
     addBtn.addEventListener('click', addIncomeExpense);
 
     //클릭시 버튼 색상 유지 및 데이터 타입 가져오기
-    incomeBtn.addEventListener('click', handleIncomeExpenseTypeClick);
+    incomeExpenseBtn.forEach(function(btn){
+        btn.addEventListener('click', handleIncomeExpenseTypeClick);
+    });
 
-    expenseBtn.addEventListener('click', handleIncomeExpenseTypeClick);
+    // incomeBtn.addEventListener('click', handleIncomeExpenseTypeClick);
+
+    // expenseBtn.addEventListener('click', handleIncomeExpenseTypeClick);
 
     //클릭시 버튼 생상 유지 및 데이터 타입 가져오기
-    allfilterbtn.addEventListener('click', handleTypeClick);
+    filterBtn.forEach(function(btn){
+        btn.addEventListener('click', handleTypeClick);
+    });
 
-    incomefilterbtn.addEventListener('click', handleTypeClick);
+    // allfilterbtn.addEventListener('click', handleTypeClick);
 
-    expensefilterbtn.addEventListener('click', handleTypeClick);
+    // incomefilterbtn.addEventListener('click', handleTypeClick);
+
+    // expensefilterbtn.addEventListener('click', handleTypeClick);
 }
 
 //수입과 수출 버튼의 타입에 따른 색상과 타입 데이터 가져오기
 function handleIncomeExpenseTypeClick(event) {
     incomeExpenseType = event.target.dataset.type;
 
-    //수입, 지출 타입에 따른 버튼 변환
-    if (incomeExpenseType === 'income') {
-        incomeBtn.classList.add('clicked');
-        expenseBtn.classList.remove('clicked');
-    } else {
-        expenseBtn.classList.add('clicked');
-        incomeBtn.classList.remove('clicked');
-    }
+    //querySelectorAll로 클래스 아래의 버튼들을 모두 가져와 반복.
+    incomeExpenseBtn.forEach(function(btn){
+        if(incomeExpenseType === btn.dataset.type){
+            btn.classList.add('clicked');
+        } else {
+            btn.classList.remove('clicked');
+        }
+    })
 }
+
+//     //수입, 지출 타입에 따른 버튼 변환
+//     if (incomeExpenseType === 'income') {
+//         incomeBtn.classList.add('clicked');
+//         expenseBtn.classList.remove('clicked');
+//     } else {
+//         expenseBtn.classList.add('clicked');
+//         incomeBtn.classList.remove('clicked');
+//     }
+// }
 
 //전체, 수입, 지출 타입과 색상 데이터 가져오기
 function handleTypeClick(event) {
     filterType = event.target.dataset.type;
 
+    //querySelectorAll로 클래스 아래의 버튼들을 모두 가져와 반복.
+    filterBtn.forEach(function(btn){
+        if(btn.dataset.type === filterType){
+            btn.classList.add('clicked');
+        } else {
+            btn.classList.remove('clicked');
+        }
+    });
+
     //전체, 수입, 지출 타입에 따른 버튼 변환
-    if (filterType === 'allFilter') {
-        allfilterbtn.classList.add('clicked');
-        incomefilterbtn.classList.remove('clicked');
-        expensefilterbtn.classList.remove('clicked');
+    // if (filterType === 'allFilter') {
+    //     allfilterbtn.classList.add('clicked');
+    //     incomefilterbtn.classList.remove('clicked');
+    //     expensefilterbtn.classList.remove('clicked');
 
-    } else if (filterType === 'incomeFilter') {
-        incomefilterbtn.classList.add('clicked');
-        allfilterbtn.classList.remove('clicked');
-        expensefilterbtn.classList.remove('clicked');
+    // } else if (filterType === 'incomeFilter') {
+    //     incomefilterbtn.classList.add('clicked');
+    //     allfilterbtn.classList.remove('clicked');
+    //     expensefilterbtn.classList.remove('clicked');
 
-    } else if (filterType === 'expenseFilter') {
-        expensefilterbtn.classList.add('clicked');
-        allfilterbtn.classList.remove('clicked');
-        incomefilterbtn.classList.remove('clicked');
-    }
+    // } else if (filterType === 'expenseFilter') {
+    //     expensefilterbtn.classList.add('clicked');
+    //     allfilterbtn.classList.remove('clicked');
+    //     incomefilterbtn.classList.remove('clicked');
+    // }
     
     render();
 }
@@ -143,7 +174,6 @@ function balanceItemRender(balance){
     list.appendChild(balanceItemContent);
 }
 
-
 function filterItemRender(){
     const incomeAll = document.getElementById('filter-income');
     const expenseAll = document.getElementById('filter-expense');
@@ -165,15 +195,30 @@ function filterItemRender(){
     //잔액 계산
     const balance = income - expense;
 
+    // if(balance < 0){
+    //     balanceHeader.classList.add('color-crimson');
+    //     balanceAll.classList.add('color-crimson');
+
+    // } else if(balance > 0){
+    //     balanceHeader.classList.add('color-green');
+    //     balanceAll.classList.add('color-green');
+    // } else {
+    //     balanceHeader.classList.add('color-black');
+    //     balanceAll.classList.add('color-black');
+    // }
+
+    // balanceHeader.innerText = balance.toLocaleString() + '원';
+    // balanceAll.innerText = balance.toLocaleString() + '원';
+
     if(balance < 0){
-        balanceHeader.style.color = 'red';
-        balanceAll.style.color = 'red';
+        balanceHeader.style.color = 'crimson';
+        balanceAll.style.color = 'crimson';
 
         balanceHeader.innerText = balance.toLocaleString() + '원';
         balanceAll.innerText = balance.toLocaleString() + '원';
     } else if(balance > 0){
-        balanceHeader.style.color = 'green';
-        balanceAll.style.color = 'green';
+        balanceHeader.style.color = 'rgb(22, 102, 22)';
+        balanceAll.style.color = 'rgb(22, 102, 22)';
 
         balanceHeader.innerText = balance.toLocaleString() + '원';
         balanceAll.innerText = balance.toLocaleString() + '원';

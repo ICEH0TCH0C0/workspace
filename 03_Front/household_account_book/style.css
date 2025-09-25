@@ -181,14 +181,21 @@ header{
     gap: 10px;
 }
 
-#filter-income, 
-#filter-balance{
+#filter-income{
     color: rgb(22, 102, 22);
 }
 
 #filter-expense{
     color: crimson;
 }
+
+/* .balance.color-crimson{
+    color: crimson;
+}
+
+.balance.color-green{
+    color: rgb(22, 102, 22);
+} */
 
 #list{
     width: 100%;
