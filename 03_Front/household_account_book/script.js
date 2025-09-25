@@ -31,6 +31,7 @@ function render() {
 
     //새로운 배열 생성하여 type에 맞는 객체 담기
     let filteredBalances = [];
+
     //필터링
     if (filterType === 'incomeFilter') {
         filteredBalances = balances.filter(function(balance) {
@@ -142,7 +143,7 @@ function balanceItemRender(balance){
     list.appendChild(balanceItemContent);
 }
 
-//계산 함수
+
 function filterItemRender(){
     const incomeAll = document.getElementById('filter-income');
     const expenseAll = document.getElementById('filter-expense');
@@ -164,11 +165,29 @@ function filterItemRender(){
     //잔액 계산
     const balance = income - expense;
 
+    if(balance < 0){
+        balanceHeader.style.color = 'red';
+        balanceAll.style.color = 'red';
+
+        balanceHeader.innerText = balance.toLocaleString() + '원';
+        balanceAll.innerText = balance.toLocaleString() + '원';
+    } else if(balance > 0){
+        balanceHeader.style.color = 'green';
+        balanceAll.style.color = 'green';
+
+        balanceHeader.innerText = balance.toLocaleString() + '원';
+        balanceAll.innerText = balance.toLocaleString() + '원';
+    } else {
+        balanceHeader.style.color = 'black';
+        balanceAll.style.color = 'black';
+
+        balanceHeader.innerText = balance.toLocaleString() + '원';
+        balanceAll.innerText = balance.toLocaleString() + '원';
+    }
+
     //toLocaleString() 금액 포맷 3자리마다 , 추가
     incomeAll.innerText = income.toLocaleString() + '원';
     expenseAll.innerText = expense.toLocaleString() + '원';
-    balanceAll.innerText = balance.toLocaleString() + '원';
-    balanceHeader.innerText = balance.toLocaleString() + '원';
 
     //local에 balances 저장
     saveBalances();
