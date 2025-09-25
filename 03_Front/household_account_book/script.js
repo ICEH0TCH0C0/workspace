@@ -22,40 +22,7 @@ function init(){
     render();
 }
 
-function getFilteredBalances(){
-    let filteredBalances = [];
-
-    //필터링
-    if (filterType === 'incomeFilter') {
-        filteredBalances = balances.filter(function(balance) {
-            return balance.type === 'income';
-        });
-    } else if (filterType === 'expenseFilter') {
-        filteredBalances = balances.filter(function(balance) {
-            return balance.type === 'expense';
-        });
-    } else { // 'allFilter' 또는 그 외의 경우
-        filteredBalances = balances; // 모든 데이터를 그대로 사용
-    }
-
-    return filteredBalances;
-}
-
-function render() {
-    //모두 지우기
-    list.innerHTML = ""; 
-
-    //새로운 배열 생성하여 type에 맞는 객체 담기
-    let filteredBalances = getFilteredBalances();
-
-    //리스트 반복 생성
-    filteredBalances.forEach(function(balance) {
-        balanceItemRender(balance); 
-    });
-
-    //계산
-    updateSummary(); 
-}
+//============================= 이벤트 처리 ==========================
 
 //버튼 이벤트들
 function bindEvents(){
@@ -105,7 +72,23 @@ function handleTypeClick(event) {
     render();
 }
 
-//==================================================
+//====================== 렌더링 함수 ======================
+function render() {
+    //모두 지우기
+    list.innerHTML = ""; 
+
+    //새로운 배열 생성하여 type에 맞는 객체 담기
+    let filteredBalances = getFilteredBalances();
+
+    //리스트 반복 생성
+    filteredBalances.forEach(function(balance) {
+        balanceItemRender(balance); 
+    });
+
+    //계산
+    updateSummary(); 
+}
+
 //리스트 생성 함수
 function balanceItemRender(balance){
 
@@ -180,6 +163,27 @@ function updateSummary(){
     expenseAll.innerText = expense.toLocaleString() + '원';
 }
 
+//====================== 데이터 관리 =============================
+
+function getFilteredBalances(){
+    let filteredBalances = [];
+
+    //필터링
+    if (filterType === 'incomeFilter') {
+        filteredBalances = balances.filter(function(balance) {
+            return balance.type === 'income';
+        });
+    } else if (filterType === 'expenseFilter') {
+        filteredBalances = balances.filter(function(balance) {
+            return balance.type === 'expense';
+        });
+    } else { // 'allFilter' 또는 그 외의 경우
+        filteredBalances = balances; // 모든 데이터를 그대로 사용
+    }
+
+    return filteredBalances;
+}
+
 //데이터를 리스트에 추가 
 function addIncomeExpense(){
     const text = document.getElementById('content-input').value.trim();
@@ -218,12 +222,7 @@ function deleteBalance(id){
     render();
 }
 
-//===================================================
-
 //localStorage에 저장하는 함수
 function saveBalances(){
     localStorage.setItem('balances', JSON.stringify(balances));
 }
-
-//===================================================
-
