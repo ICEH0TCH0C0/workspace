@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Get 방식 요청으로 응답한 페이지</h1>
+    <h5>HTTP요청 메서드 중 하나로 서버에서 정보를 가져올 때 사용되는 요청 방식이다.</h5>
+
+    <p>
+        특징 1. 요청시 UPL의 쿼리 문자열(Query String)을 포함하여 데이터를 전송 <br>
+        => 사용자가 입력한 값(데이터)를 서버에 보낼때 URL이 노출되어 전달함. <br>
+        => 보안 유지가 어려움 <br>
+        => 즉, 로그인이나 회원가입같은 private 데이터가 포함된 요청인 경우 Get방식은 부적합 함. <br><br>
+
+        특징 2. 데이터 길이 제한이 있음 <br>
+        => URL에 함께 전달되는 방식이기 때문에 데이터의 길이 제한이 있음, 너무 긴 데이터는 잘린채 전달될 수 있음(평균2000자 정도) <br>
+        => 즉, 게시판 작성같은 경우 Get방식이 부적합함. <br><br>
+
+        특징 3. 캐싱 기능 및 즐겨찾기 사용 가능 <br>
+        URL을 저장해둔 뒤 재요청하는 방식 <br>
+        => 검색기능에 적합 <br>
+    </p>
+
+    <a href="https://khacademy.co.kr/main/main.kh?utm_source=nba&utm_medium=brand&utm_campaign=it_11&utm_id=khacademy&utm_content=PCslogan&utm_term=KH%EC%A0%95%EB%B3%B4%EA%B5%90%EC%9C%A1%EC%9B%90&n_media=27758&n_query=KH%EC%A0%95%EB%B3%B4%EA%B5%90%EC%9C%A1%EC%9B%90&n_rank=1&n_ad_group=grp-a001-04-000000046054464&n_ad=nad-a001-04-000000400853841&n_keyword_id=nkw-a001-04-000006633937476&n_keyword=KH%EC%A0%95%EB%B3%B4%EA%B5%90%EC%9C%A1%EC%9B%90&n_campaign_type=4&n_contract=tct-a001-04-000000001157908&n_ad_group_type=5&NaPm=ct%3Dmg0a7m61%7Cci%3DERccbd8f81%2D9a88%2D11f0%2D8525%2D2a62ae377f18%7Ctr%3Dbrnd%7Chk%3D48159db21e8367807e00bc29b3f85ebf3e0b4d8d%7Cnacn%3DbfNeGAD4Nv4rC">kh 정보교육원</a>
+    <form action="/servlet/gettest.do" method="get">
+        <ul>
+            <li>
+                이름 : <input type="text" name="name">
+            </li>
+            <li>
+                나이 : <input type="text" name="age">
+            </li>
+            <li>
+                성별 : 
+                <label><input type="radio" name="gender" value="M">남</label>
+                <label><input type="radio" name="gender" value="F">여</label>
+            </li>
+            <li>
+                주소 : 
+                <select name="address">
+                    <option value="서울">서울</option>
+                    <option value="경기">경기</option>
+                    <option value="대구">대구</option>
+                    <option value="울산">울산</option>
+                    <option value="제주">제주</option>
+                </select>
+            </li>
+            <li>
+                키 : <input type="range" name="height" min="140" max="200">
+            </li>
+            <li>
+                좋아하는 음식 : 
+                <input type="checkbox" name="food" value="한식">한식
+                <input type="checkbox" name="food" value="중식">중식
+                <input type="checkbox" name="food" value="일식">일식
+                <input type="checkbox" name="food" value="양식">양식
+                <input type="checkbox" name="food" value="분식">분식
+            </li>
+            <li>
+                <input type="submit">
+                <input type="reset">
+            </li>
+        </ul>
+    </form>
+</body>
+</html>
