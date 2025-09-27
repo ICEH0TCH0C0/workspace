@@ -8,7 +8,7 @@ let list = document.getElementById('list');
 document.getElementById('all-filter-btn').classList.add('clicked');
 
 //수입, 지출 변환 버튼
-const incomeExpenseBtn = document.querySelectorAll('.income-Expense-container button');
+const incomeExpenseBtn = document.querySelectorAll('.income-expense-container button');
 
 //전체, 총 수입, 총 지출 필터 변환 버튼
 const filterBtn = document.querySelectorAll('.filter-buttons button');
@@ -110,7 +110,7 @@ function balanceItemRender(balance){
                                 <p id="description">${balance.description}</p>
                             </div>
                             <div class="${balance.type === 'income' ? 'income' : 'expense'}">
-                                <p>${balance.type === 'income' ? operator = '+' : operator = '-'} ${balance.amount.toLocaleString()}원</p>
+                                <p>${balance.type === 'income' ? '+' : '-'} ${balance.amount.toLocaleString()}원</p>
                                 <button class="delete-btn">삭제</button>
                             </div>`;
     //삭제 버튼
@@ -126,16 +126,13 @@ function balanceItemRender(balance){
 //balance의 값을 받고 색상 변경 후 화면에 띄움
 function updateBalanceDisplay(balance){
 
-    balanceHeader.classList.remove('plus','minus');
-    balanceAll.classList.remove('plus','minus');
+    // 모든 상태 클래스를 먼저 제거
+    balanceHeader.classList.remove('plus', 'minus', 'zero');
+    balanceAll.classList.remove('plus', 'minus', 'zero');
 
-    if(balance < 0){
-        balanceHeader.classList.add('minus');
-        balanceAll.classList.add('minus');
-    } else if(balance > 0){
-        balanceHeader.classList.add('plus');
-        balanceAll.classList.add('plus');
-    }
+    const status = balance > 0 ? 'plus' : balance < 0 ? 'minus' : 'zero';
+    balanceHeader.classList.add(status);
+    balanceAll.classList.add(status);
 
     balanceHeader.innerText = balance.toLocaleString() + '원';
     balanceAll.innerText = balance.toLocaleString() + '원';
@@ -162,7 +159,7 @@ function updateSummary(){
     //balance의 색상을 변경하여 화면에 띄움
     updateBalanceDisplay(balance);
 
-    //클래스 추가
+    // 총 수입, 총 지출에 색상 적용을 위한 클래스 추가
     incomeTotal.classList.add('income');
     expenseTotal.classList.add('expense');
 
@@ -198,7 +195,7 @@ function addIncomeExpense(){
 
     let type = incomeExpenseType; // 선택된 타입 사용
     
-    if(!text || !amount) return;
+    if(!text || !amount || Number(amount) === 0) return;
 
     //버림 계산으로 1000원 단위
     const roundedAmount = Math.floor(amount/1000)*1000;
