@@ -171,7 +171,7 @@
 			(c:param name="키" value="값") <br>
 			(c:param name="키" value="값") <br>
 			... <br>
-		(/c:url)br<%!  %> <br>
+		(/c:url)
 	</p> <br>
 	
 	<a href="list.do?color=black&item=5">기존방식의 요청</a> <br>

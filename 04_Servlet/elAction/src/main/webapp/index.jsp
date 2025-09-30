@@ -55,7 +55,7 @@
     <h3>JSTL 선언 방법</h3>
     <p>
     	JSTL을 사용하려는 JSP페이지 상단에 taglib 지시어를 선언 <br>
-    	<%-- <%@ taglib prefix="접두어" url="라이브러리 파일 상의 uri주소"%> --%>
+    	<%-- <%@ taglib prefix="접두어" uri="라이브러리 파일 상의 uri주소"%> --%>
     </p>
     
     <h3>Custom Action Tag(JSTL 주요 라이브러리)</h3>
