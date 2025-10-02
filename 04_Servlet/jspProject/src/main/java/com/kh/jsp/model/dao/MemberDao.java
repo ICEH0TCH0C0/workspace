@@ -96,4 +96,67 @@ public class MemberDao {
 		
 		return m;
 	}
+	
+	public int updateMember(Member m, Connection conn) {
+		int result = 0;
+		
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("updateMember");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, m.getPhone());
+			pstmt.setString(2, m.getEmail());
+			pstmt.setString(3, m.getAddress());
+			pstmt.setString(4, m.getInterest());
+			pstmt.setString(5, m.getMemberId());
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
+	
+	public Member selectMemberByUserId(String userId, Connection conn) {
+		Member m = null;
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		String sql = prop.getProperty("selectMemberByUserId");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, userId);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				m = new Member(
+							rset.getInt("MEMBER_NO"),
+							rset.getString("MEMBER_ID"),
+							rset.getString("MEMBER_PWD"),
+							rset.getString("MEMBER_NAME"),
+							rset.getString("PHONE"),
+							rset.getString("EMAIL"),
+							rset.getString("ADDRESS"),
+							rset.getString("INTEREST"),
+							rset.getDate("ENROLL_DATE"),
+							rset.getDate("MODIFY_DATE"),
+							rset.getString("STATUS")
+						);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return m;
+	}
 }

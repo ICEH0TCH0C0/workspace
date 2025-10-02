@@ -41,7 +41,7 @@ public class InsertController extends HttpServlet {
 		Member m = Member.insertCreateMember(userId, userPwd, userName, phone, email, address, interest);
 		
 		int result = new MemberService().insertMember(m);
-		
+
 		if(result > 0) {
 			request.getSession().setAttribute("alertMsg", "성공적으로 회원가입하였습니다.");
 			response.sendRedirect(request.getContextPath()); //ContextPath.request.contextPath와 동일(/jsp)

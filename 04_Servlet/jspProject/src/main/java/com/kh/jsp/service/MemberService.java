@@ -31,4 +31,21 @@ public class MemberService {
 		
 		return m;
 	}
+	
+	public Member updateMember(Member m) {
+		Connection conn = getConnection();
+		
+		int result = new MemberDao().updateMember(m, conn);
+		
+		Member updateMember = null;
+		if(result > 0) {
+			commit(conn);
+		} else {
+			rollback(conn);
+			updateMember = new MemberDao().selectMemberByUserId(m.getMemberId(), conn);
+		}
+		close(conn);
+		
+		return updateMember;
+	}
 }
