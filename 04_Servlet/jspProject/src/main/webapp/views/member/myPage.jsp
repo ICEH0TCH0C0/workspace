@@ -181,7 +181,7 @@
 
 				<!-- Modal body -->
 				<div class="modal-body">
-					<form action="" method="">
+					<form action="${pageContext.request.contextPath}/updatePwd.me" method="post">
 						<div class="mb-3">
 							<label for="currentPwd" class="form-label">현재 비밀번호</label>
 							<input type="password" class="form-control" id="currentPwd" name="userPwd" required>
@@ -192,7 +192,7 @@
 						</div>
 						<div class="mb-3">
 							<label for="checkPwd" class="form-label">변경할 비밀번호 확인</label>
-							<input type="password" class="form-control" id="checkPwd" name="checkPwd" required>
+							<input type="password" class="form-control" id="checkPwd" required>
 						</div>
 						<div class="d-grid">
 							<button id="edit-pwd-btn" type="submit" class="btn btn-primary">비밀번호 변경</button>
@@ -217,7 +217,7 @@
 
 				<!-- Modal body -->
 				<div class="modal-body">
-					<form action="" method="">
+					<form action="${pageContext.request.contextPath}/delete.me" method="post">
 						<div class="alert alert-warning" role="alert">
 							<strong>경고:</strong> 탈퇴 후 복구가 불가능합니다.<br>
 							정말로 탈퇴하시겠습니까?

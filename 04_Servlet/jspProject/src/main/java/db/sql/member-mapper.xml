@@ -42,7 +42,20 @@
 	     AND STATUS = 'Y'
 	</entry>
 	<entry key="selectMemberByUserId">
-		
+		SELECT MEMBER_NO,
+				MEMBER_ID,
+				MEMBER_PWD,
+				MEMBER_NAME,
+				PHONE,
+				EMAIL,
+				ADDRESS,
+				INTEREST,
+				ENROLL_DATE,
+				MODIFY_DATE,
+				STATUS
+		FROM MEMBER
+	   WHERE MEMBER_ID = ?
+	   AND STATUS = 'Y'
 	</entry>
 	<entry key="updateMember">
 		UPDATE MEMBER 
@@ -53,5 +66,19 @@
 			MODIFY_DATE = SYSDATE
 		WHERE MEMBER_ID = ? 
 		AND STATUS = 'Y'	
+	</entry>
+	<entry key="updateMemberPwd">
+		UPDATE MEMBER
+		SET MEMBER_PWD = ?,
+			MODIFY_DATE = SYSDATE
+		WHERE MEMBER_ID = ?
+		AND STATUS = 'Y'
+	</entry>
+	<entry key="deleteMember">
+		UPDATE MEMBER
+		SET MODIFY_DATE = SYSDATE,
+			STATUS = 'N'
+		WHERE MEMBER_ID = ?
+		AND STATUS = 'Y'
 	</entry>
 </properties>
