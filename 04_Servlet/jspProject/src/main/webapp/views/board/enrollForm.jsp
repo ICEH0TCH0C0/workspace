@@ -1,3 +1,4 @@
+<%@page import="com.kh.jsp.model.vo.Category"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
@@ -82,13 +83,21 @@
 		<div class="board-card">
 			<h2>일반게시글 작성하기</h2>
 
-			<form action="" method="" >
+			<form action="" method="get" >
 				<table class="form-table">
 					<tr>
 						<th>카테고리</th>
 						<td>
-							<select name="category">						
+							<select name="category" onchange="selectCategory();">
+								<c:forEach var="category" items="${categoryList}">
+									<option value="${category.categoryNo}">${category.categoryName}</option>
+								</c:forEach>
 							</select>
+							<script>
+								function selectCategory() {
+									location.href = "${pageContext.request.contextPath}/selectCategory.bo";
+								}
+							</script>
 						</td>
 					</tr>
 					<tr>
