@@ -42,7 +42,7 @@ public class RequestPostServlet extends HttpServlet {
 		//위와같은 결과에따라 응답페이지(html)을 만들어서 응답
 		//즉, java 코드 내에서 사용자가 보게될 응답 html을 작성
 		
-		//응답 html을 생성하는 과정을 JSP템플릿 엔진에 위임
+		//응답 html을 생성하는 과정을 JSP템플릿 엔진에 위임 (템플릿 엔진은 지정된 템플릿 양식과 데이터를 합쳐져 HTML문서를 출력하는 소프트웨어)
 		//단 응답화면에서 필요로하는 데이터를 잘 담아서 전달해줘야한다.
 		//데이터를 전달하기위한 공간 -> request의 attribute영역
 		//request.setAttribute("키", "값");
@@ -56,7 +56,8 @@ public class RequestPostServlet extends HttpServlet {
 		
 		//현재 요청을 responsePage.jsp로 전달
 		//RequestDispatcher -> 서블릿에서 다른 리소스(jsp, 또다른 서블릿)으로 요청을 전달(포워드)하거나
-		//기존 응답에 내용을 추가할 수 있게 해주는 객체
+		//기존 응답에 내용을 추가할 수 있게 해주는 객체 
+		//지금은 JSP 파일로 보내기 위한 객체.
 		RequestDispatcher view = request.getRequestDispatcher("/views/responsePage.jsp");
 		view.forward(request, response);
 	}
