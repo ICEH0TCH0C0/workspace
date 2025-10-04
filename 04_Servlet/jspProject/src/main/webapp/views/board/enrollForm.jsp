@@ -83,21 +83,16 @@
 		<div class="board-card">
 			<h2>일반게시글 작성하기</h2>
 
-			<form action="" method="get" >
+			<form action="${pageContext.request.contextPath}/insert.bo" method="get">
 				<table class="form-table">
 					<tr>
 						<th>카테고리</th>
 						<td>
-							<select name="category" onchange="selectCategory();">
+							<select name="category">
 								<c:forEach var="category" items="${categoryList}">
 									<option value="${category.categoryNo}">${category.categoryName}</option>
 								</c:forEach>
 							</select>
-							<script>
-								function selectCategory() {
-									location.href = "${pageContext.request.contextPath}/selectCategory.bo";
-								}
-							</script>
 						</td>
 					</tr>
 					<tr>

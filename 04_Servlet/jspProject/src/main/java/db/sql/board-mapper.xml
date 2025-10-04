@@ -1,8 +1,43 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
 <properties>
-	<entry key="selectCategory">
-		SELECT CATEGORY_NAME
-		FROM CATEGORY
-	</entry>
+    <entry key="selectCategory">
+        SELECT CATEGORY_NO, CATEGORY_NAME 
+        FROM CATEGORY 
+        ORDER BY 1
+    </entry>
+    
+    <entry key="selectList">
+        SELECT 
+            BOARD_NO,
+            CATEGORY_NAME,
+            BOARD_TITLE,
+            MEMBER_ID,
+            COUNT,
+            CREATE_DATE
+        FROM BOARD B
+        JOIN CATEGORY USING(CATEGORY_NO)
+        JOIN MEMBER ON(BOARD_WRITER = MEMBER_NO)
+        WHERE B.STATUS = 'Y'
+        ORDER BY BOARD_NO DESC
+    </entry>
+
+    <entry key="insertBoard">
+        INSERT INTO BOARD (
+        					BOARD_NO, 
+        					BOARD_TYPE, 
+        					CATEGORY_NO, 
+        					BOARD_TITLE, 
+        					BOARD_CONTENT, 
+        					BOARD_WRITER
+        )
+        VALUES (
+        		SEQ_BNO.NEXTVAL, 
+        		1, 
+        		?, 
+        		?, 
+        		?, 
+        		?
+        )
+    </entry>
 </properties>
