@@ -6,13 +6,12 @@
         FROM CATEGORY 
         ORDER BY 1
     </entry>
-    
     <entry key="selectList">
         SELECT 
             BOARD_NO,
             CATEGORY_NAME,
             BOARD_TITLE,
-            MEMBER_ID,
+            MEMBER_NAME,
             COUNT,
             CREATE_DATE
         FROM BOARD B
@@ -21,7 +20,6 @@
         WHERE B.STATUS = 'Y'
         ORDER BY BOARD_NO DESC
     </entry>
-
     <entry key="insertBoard">
         INSERT INTO BOARD (
         					BOARD_NO, 
@@ -39,5 +37,24 @@
         		?, 
         		?
         )
+    </entry>
+    <entry key="increaseCount">
+        UPDATE BOARD
+        SET COUNT = COUNT + 1
+        WHERE BOARD_NO = ? AND STATUS = 'Y'
+    </entry>
+    <entry key="selectBoard">
+        SELECT
+            BOARD_NO,
+            CATEGORY_NAME,
+            BOARD_TITLE,
+            BOARD_CONTENT,
+            MEMBER_ID,
+            MEMBER_NAME,
+            CREATE_DATE
+        FROM BOARD B
+        JOIN CATEGORY USING(CATEGORY_NO)
+        JOIN MEMBER ON(B.BOARD_WRITER = MEMBER_NO)
+        WHERE BOARD_NO = ? AND B.STATUS = 'Y'
     </entry>
 </properties>
