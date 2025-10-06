@@ -72,14 +72,15 @@ public class BoardDao {
 			rset = pstmt.executeQuery();
 			
 			while(rset.next()) {
-				list.add(Board.builder()
-							  .boardNo(rset.getInt("BOARD_NO"))
-							  .categoryName(rset.getString("CATEGORY_NAME"))
-							  .boardTitle(rset.getString("BOARD_TITLE"))
-							  .boardWriter(rset.getString("MEMBER_ID")) // MEMBER_ID로 작성자명을 사용
-							  .count(rset.getInt("COUNT"))
-							  .createDate(rset.getDate("CREATE_DATE"))
-							  .build());
+				Board b = new Board();
+				b.setBoardNo(rset.getInt("BOARD_NO"));
+				b.setCategoryName(rset.getString("CATEGORY_NAME"));
+				b.setBoardTitle(rset.getString("BOARD_TITLE"));
+				b.setBoardWriterName(rset.getString("MEMBER_NAME"));
+				b.setCount(rset.getInt("COUNT"));
+				b.setCreateDate(rset.getDate("CREATE_DATE"));
+
+				list.add(b);
 			}
 			
 		} catch (SQLException e) {
@@ -93,17 +94,17 @@ public class BoardDao {
 		
 	}
 	
-	public int insertBoard(Connection conn, Board b) {
+	public int insertBoard(Connection conn, Board b, int categoryNo) {
 		int result = 0;
-		PreparedStatement pstmt = null;
+		PreparedStatement pstmt = null; // b.getBoardWriter()는 이제 String(MEMBER_ID)이므로, 실제 INSERT에는 회원번호가 필요함
 		String sql = prop.getProperty("insertBoard");
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, Integer.parseInt(b.getCategoryNo()));
+			pstmt.setInt(1, categoryNo);
 			pstmt.setString(2, b.getBoardTitle());
 			pstmt.setString(3, b.getBoardContent());
-			pstmt.setInt(4, Integer.parseInt(b.getBoardWriter()));
+			pstmt.setInt(4, Integer.parseInt(b.getBoardWriter())); // boardWriter는 회원번호이므로 int로 변환하여 설정
 			
 			result = pstmt.executeUpdate();
 			
@@ -124,6 +125,7 @@ public class BoardDao {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, boardNo);
 			result = pstmt.executeUpdate();
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -145,15 +147,13 @@ public class BoardDao {
 			rset = pstmt.executeQuery();
 			
 			if(rset.next()) {
-				b = Board.builder()
-						 .boardNo(rset.getInt("BOARD_NO"))
-						 .categoryName(rset.getString("CATEGORY_NAME"))
-						 .boardTitle(rset.getString("BOARD_TITLE"))
-						 .boardContent(rset.getString("BOARD_CONTENT"))
-						 .boardWriter(rset.getString("MEMBER_ID"))
-						 .count(rset.getInt("COUNT"))
-						 .createDate(rset.getDate("CREATE_DATE"))
-						 .build();
+				b = new Board();
+				b.setBoardNo(rset.getInt("BOARD_NO")); // selectBoard 쿼리가 없지만, 일반적인 형태로 수정
+				b.setCategoryName(rset.getString("CATEGORY_NAME"));
+				b.setBoardTitle(rset.getString("BOARD_TITLE"));
+				b.setBoardContent(rset.getString("BOARD_CONTENT"));
+				b.setBoardWriterName(rset.getString("MEMBER_NAME"));
+				b.setCreateDate(rset.getDate("CREATE_DATE"));
 			}
 			
 		} catch (SQLException e) {

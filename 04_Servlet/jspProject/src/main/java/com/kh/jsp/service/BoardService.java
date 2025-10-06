@@ -22,10 +22,10 @@ public class BoardService {
 		return list;
 	}
 	
-	public int insertBoard(Board b) {
+	public int insertBoard(Board b, int categoryNo) {
 		Connection conn = getConnection();
 		
-		int result = new BoardDao().insertBoard(conn, b);
+		int result = new BoardDao().insertBoard(conn, b, categoryNo);
 		
 		if(result > 0) {
 			commit(conn);

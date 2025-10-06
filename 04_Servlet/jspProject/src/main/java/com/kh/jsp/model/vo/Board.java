@@ -18,26 +18,21 @@ import lombok.ToString;
 public class Board {
     private int boardNo;
     private int boardType;
-    private String categoryNo; 
+    private int categoryNo;
     private String boardTitle;
     private String boardContent;
+    /**
+     * 조회 시에는 작성자 아이디(MEMBER_ID)가,
+     * 등록 시에는 작성자 회원번호(MEMBER_NO)가 String 형태로 담기는 필드
+     */
     private String boardWriter;
     private int count;
     private Date createDate;
     private String status;
 
-    // listView.jsp에서 JOIN을 통해 가져올 추가 데이터
+    // JOIN 조회 시 카테고리명을 담기 위한 필드
     private String categoryName;
-
-	public static Board insertBoard(String boardTitle, String boardContent, String categoryName) {
-		Board b = new Board();
-		
-		b.setBoardTitle(boardTitle);
-		b.setBoardContent(boardContent);
-		b.setCategoryName(categoryName);
-		
-		return b;
-	}
     
-    
+    // JOIN 조회 시 작성자 이름을 담기 위한 필드
+    private String boardWriterName;
 }

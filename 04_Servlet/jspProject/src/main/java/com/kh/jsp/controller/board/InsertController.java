@@ -1,7 +1,6 @@
 package com.kh.jsp.controller.board;
 
 import java.io.IOException;
-
 import com.kh.jsp.model.vo.Board;
 import com.kh.jsp.model.vo.Member;
 import com.kh.jsp.service.BoardService;
@@ -28,27 +27,26 @@ public class InsertController extends HttpServlet {
 		// 1. 로그인 상태 확인
 		if(loginMember == null) {
 			session.setAttribute("alertMsg", "로그인 후 이용해주세요.");
-			response.sendRedirect(request.getContextPath()+"/list.bo"); 
+			response.sendRedirect(request.getContextPath()); 
 			return;
 		}
 		
 		// 2. DB에 기록할 데이터 추출
-		String category = request.getParameter("category");
+		int categoryNo = Integer.parseInt(request.getParameter("category"));
 		String title = request.getParameter("title");
 		String content = request.getParameter("content");
-		String boardWriter = String.valueOf(loginMember.getMemberNo());
+		String boardWriter = String.valueOf(loginMember.getMemberNo()); // DB에는 NUMBER 타입으로 저장되지만, VO 필드는 String
 		
 		// 3. Board VO 객체 생성
-		Board b = Board.builder()
-					   .boardType(1) // 일반 게시글 타입만 가능 -> 나중에 파일타입 추가
-					   .categoryNo(category)
-					   .boardTitle(title)
-					   .boardContent(content)
-					   .boardWriter(boardWriter)
-					   .build();
+		Board b = new Board();
+		b.setBoardTitle(title);
+		b.setBoardContent(content);
+		b.setBoardType(1); // 일반 게시판이므로 타입 1로 설정
+		b.setBoardWriter(boardWriter); // 작성자 회원 번호를 String으로 설정
+
 		
 		// 4. Service로 요청 전달 및 결과 받기
-		int result = new BoardService().insertBoard(b);
+		int result = new BoardService().insertBoard(b, categoryNo);
 		
 		// 5. 결과에 따른 응답 처리
 		if(result > 0) { // 성공

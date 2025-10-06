@@ -104,21 +104,22 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <%-- 게시글이 없을 경우 --%>
+                    <!-- listController에서 가져온 list가 empty 경우 -->
                     <c:if test="${empty list}">
                         <tr>
                             <td colspan="6">조회된 게시글이 없습니다.</td>
                         </tr>
                     </c:if>
-                    <%-- 게시글이 있을 경우 --%>
+                    <!-- listController에서 가져온 list가 존재하는 경우 -->
                     <c:forEach var="b" items="${list}">
-                        <tr>
+                        <tr onclick="listload(${b.boardNo});">
                             <td>${b.boardNo}</td>
                             <td>${b.categoryName}</td>
                             <td>
-                                <a href="${pageContext.request.contextPath}/detail.bo?bno=${b.boardNo}">${b.boardTitle}</a>
+                                <!-- 사용자가 클릭시 BoardNo를 bno에 저장하고 서버에 요청 -->
+                                ${b.boardTitle}
                             </td>
-                            <td>${b.boardWriter}</td>
+                            <td>${b.boardWriterName}</td>
                             <td>${b.count}</td>
                             <td>${b.createDate}</td>
                         </tr>
@@ -141,5 +142,10 @@
             </div>
         </div>
     </div>
+    <script>
+        function listload(bno) {
+            location.href="${pageContext.request.contextPath}/detail.bo?bno=" + bno;
+        }
+    </script>
 </body>
 </html>
