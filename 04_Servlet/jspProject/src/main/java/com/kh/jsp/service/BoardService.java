@@ -62,4 +62,12 @@ public class BoardService {
 		close(conn);
 		return b;
 	}
+	
+	//수정 페이지 전용 board 검색 -> count 증가하지 않기 위해 따로 추가
+	public Board selectUpdateBoard(int boardNo) {
+		Connection conn = getConnection();
+		Board b = new BoardDao().selectBoard(conn, boardNo);
+		close(conn);
+		return b;
+	}
 }

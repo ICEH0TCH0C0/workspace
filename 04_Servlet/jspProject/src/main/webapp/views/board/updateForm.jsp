@@ -88,12 +88,15 @@
 		<div class="board-card">
 			<h2>일반게시글 수정하기</h2>
 
-			<form action="" method="" >
+			<form id="update-form" action="${pageContext.request.contextPath}/update.bo" method="post" >
 				<table class="form-table">
 					<tr>
 						<th>카테고리</th>
 						<td>
 							<select name="category">
+								<c:forEach var="category" items="${categoryList}">
+									<option value="${category.categoryNo}">${category.categoryName}</option>
+								</c:forEach>
 							</select>
 						</td>
 					</tr>
