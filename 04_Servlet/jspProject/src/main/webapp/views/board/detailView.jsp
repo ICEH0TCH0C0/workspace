@@ -159,8 +159,8 @@
 
 			<div class="button-group">
 				<a href="${pageContext.request.contextPath}/list.bo" class="btn btn-primary">목록가기</a>
-				<a href="${pageContext.request.contextPath}//updateForm.bo?bno=${board.boardNo}" class="btn btn-warning">수정하기</a>
-				<a class="btn btn-danger">삭제하기</a>
+				<a href="${pageContext.request.contextPath}/updateForm.bo?bno=${board.boardNo}" class="btn btn-warning">수정하기</a>
+				<a href="${pageContext.request.contextPath}/delete.bo?bno=${board.boardNo}" class="btn btn-danger">삭제하기</a>
 			</div>
 		</div>
 
