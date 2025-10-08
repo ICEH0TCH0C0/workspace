@@ -32,7 +32,7 @@ public class UpdateController extends HttpServlet {
 			return;
 		}
 		
-		// 2. DB에 기록할 데이터 추출
+		// 2. 데이터 추출 (게시글 번호, 카테고리, 제목, 내용)
 		int boardNo = Integer.parseInt(request.getParameter("bno"));
 		int categoryNo = Integer.parseInt(request.getParameter("category"));
 		String title = request.getParameter("title");

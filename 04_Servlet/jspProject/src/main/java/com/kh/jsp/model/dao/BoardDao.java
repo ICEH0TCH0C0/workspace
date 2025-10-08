@@ -30,6 +30,7 @@ public class BoardDao {
 		}
 	}
 	
+	// DB에서 카테고리 목록 조회
 	public ArrayList<Category> selectCategory(Connection conn){
 		
 		PreparedStatement pstmt = null;
@@ -61,6 +62,7 @@ public class BoardDao {
 		return list;
 	}
 	
+	// DB에서 게시글 목록 조회
 	public ArrayList<Board> selectList(Connection conn){
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
@@ -94,6 +96,7 @@ public class BoardDao {
 		
 	}
 	
+	// DB에 게시글 삽입
 	public int insertBoard(Connection conn, Board b, int categoryNo) {
 		int result = 0;
 		PreparedStatement pstmt = null; // b.getBoardWriter()는 이제 String(MEMBER_ID)이므로, 실제 INSERT에는 회원번호가 필요함
@@ -116,6 +119,7 @@ public class BoardDao {
 		return result;
 	}
 	
+	// DB에서 게시글 조회수 증가
 	public int increaseCount(Connection conn, int boardNo) {
 		int result = 0;
 		PreparedStatement pstmt = null;
@@ -134,6 +138,7 @@ public class BoardDao {
 		return result;
 	}
 	
+	// DB에서 특정 게시글 상세 조회
 	public Board selectBoard(Connection conn, int boardNo) {
 		Board b = null;
 		PreparedStatement pstmt = null;
@@ -165,6 +170,7 @@ public class BoardDao {
 		return b;
 	}
 	
+	// DB에서 게시글 정보 수정
 	public int updateBoard(Connection conn, Board b) {
 		int result = 0;
 		PreparedStatement pstmt = null;
@@ -187,6 +193,7 @@ public class BoardDao {
 		return result;
 	}
 	
+	// DB에서 게시글 상태 'N'으로 변경 (삭제 처리)
 	public int deleteBoard(Connection conn, int boardNo) {
 		int result = 0;
 		PreparedStatement pstmt = null;

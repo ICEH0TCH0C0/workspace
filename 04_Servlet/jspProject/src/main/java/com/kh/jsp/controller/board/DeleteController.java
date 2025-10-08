@@ -24,7 +24,7 @@ public class DeleteController extends HttpServlet {
 		HttpSession session = request.getSession();
 		Member loginMember = (Member)session.getAttribute("loginMember");
 		
-		// 1. 로그인 상태 확인
+		// 1. 로그인 확인
 		if(loginMember == null) {
 			session.setAttribute("alertMsg", "로그인 후 이용해주세요.");
 			response.sendRedirect(request.getContextPath()); 

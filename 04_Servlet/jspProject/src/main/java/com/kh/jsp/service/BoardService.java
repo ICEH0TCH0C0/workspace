@@ -14,6 +14,7 @@ import com.kh.jsp.model.vo.Category;
 
 public class BoardService {
 	
+	// 카테고리 목록 조회
 	public List<Category> selectCategory() {
 		Connection conn = getConnection();
 		
@@ -22,6 +23,7 @@ public class BoardService {
 		return list;
 	}
 	
+	// 게시글 등록
 	public int insertBoard(Board b, int categoryNo) {
 		Connection conn = getConnection();
 		
@@ -36,6 +38,7 @@ public class BoardService {
 		return result;
 	}
 	
+	// 게시글 목록 조회
 	public List<Board> selectList(){
 		Connection conn = getConnection();
 		
@@ -44,6 +47,7 @@ public class BoardService {
 		return list;
 	}
 	
+	// 게시글 상세 조회 (조회수 증가)
 	public Board selectBoard(int boardNo) {
 		Connection conn = getConnection();
 		BoardDao boardDao = new BoardDao();
@@ -63,7 +67,7 @@ public class BoardService {
 		return b;
 	}
 	
-	//수정 페이지 전용 board 검색 -> count 증가하지 않기 위해 따로 추가
+	// 게시글 수정 페이지용 상세 조회 (조회수 증가 X)
 	public Board selectUpdateBoard(int boardNo) {
 		Connection conn = getConnection();
 		Board b = new BoardDao().selectBoard(conn, boardNo);
@@ -71,6 +75,7 @@ public class BoardService {
 		return b;
 	}
 	
+	// 게시글 수정
 	public int updateBoard(Board b) {
 		Connection conn = getConnection();
 		
@@ -85,6 +90,7 @@ public class BoardService {
 		return result;
 	}
 	
+	// 게시글 삭제
 	public int deleteBoard(int boardNo) {
 		Connection conn = getConnection();
 		
