@@ -65,4 +65,9 @@
         WHERE BOARD_NO = ?
         AND STATUS = 'Y'
     </entry>
+    <entry key="deleteBoard">
+        UPDATE BOARD
+        SET STATUS = 'N'
+        WHERE BOARD_NO = ?
+    </entry>
 </properties>
