@@ -57,4 +57,12 @@
         JOIN MEMBER ON(B.BOARD_WRITER = MEMBER_NO)
         WHERE BOARD_NO = ? AND B.STATUS = 'Y'
     </entry>
+    <entry key="updateBoard">
+        UPDATE BOARD
+        SET CATEGORY_NO = ?,
+            BOARD_TITLE = ?,
+            BOARD_CONTENT = ?
+        WHERE BOARD_NO = ?
+        AND STATUS = 'Y'
+    </entry>
 </properties>
