@@ -54,6 +54,14 @@ public class BoardService {
 		return insertcheck;
 	}
 	
+	public String selectFilePath(int boardNo) {
+		Connection conn = getConnection();
+		String upfilePath = new BoardDao().selectFilePath(conn, boardNo);
+		close(conn);
+		
+		return upfilePath;
+	}
+	
 	// 게시글 목록 조회
 	public List<Board> selectList(){
 		Connection conn = getConnection();

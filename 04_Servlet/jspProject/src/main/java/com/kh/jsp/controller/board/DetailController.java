@@ -20,16 +20,18 @@ public class DetailController extends HttpServlet {
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// 1. 게시글 번호 추출
+		// 1. 게시글 번호, fileName
 		int boardNo = Integer.parseInt(request.getParameter("bno"));
 		
 		// 2. BoardService의 selectBoard 메소드 호출 (조회수 증가 + 게시글 조회)
 		Board b = new BoardService().selectBoard(boardNo);
+		String upfilePath = new BoardService().selectFilePath(boardNo);
 		
 		// 3. 조회 결과에 따라 응답 페이지 지정
 		if(b != null) { // 조회 성공
 			// request에 조회된 Board 객체를 "board"라는 키로 담기
 			request.setAttribute("board", b);
+			request.setAttribute("upfile", upfilePath);
 			// detailView.jsp로 포워딩
 			request.getRequestDispatcher("views/board/detailView.jsp").forward(request, response);
 		} else { // 조회 실패

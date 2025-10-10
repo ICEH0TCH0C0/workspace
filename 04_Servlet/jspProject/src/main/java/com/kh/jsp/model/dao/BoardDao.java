@@ -131,28 +131,31 @@ public class BoardDao {
 		return result; 
 	}
 	
-	public int selectBoardNo(Connection conn) {
-		PreparedStatement pstmt1 = null;
+	public String selectFilePath(Connection conn, int boardNo) {
+		String path = "";
 		ResultSet rset = null;
-		int boardNo = 0;
-		String sql = prop.getProperty("selectBoardNo"); //SEQ_BNO.CURRVAL를 이용
+		PreparedStatement pstmt = null;
+		
+		String sql = prop.getProperty("selectFilePath");
 		
 		try {
-			pstmt1 = conn.prepareStatement(sql);
-			rset = pstmt1.executeQuery();
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, boardNo);
+			
+			rset = pstmt.executeQuery();
 			
 			if(rset.next()) {
-				boardNo = rset.getInt("SEQ_BNO.CURRVAL");
+				path = rset.getString(1);
 			}
 			
 		} catch (SQLException e) {
+			
 			e.printStackTrace();
 		} finally {
 			close(rset);
-			close(pstmt1);
+			close(pstmt);
 		}
-		
-		return boardNo;
+		return path;
 	}
 	
 	public int insertFile(Connection conn, Part upfile, int boardNo) {
@@ -162,7 +165,7 @@ public class BoardDao {
 		
 		String fileName = Paths.get(upfile.getSubmittedFileName()).getFileName().toString(); // 파일 이름 가져오기 file.getName은 java io이며, 서블릿은 이 방법으로 사용
 		
-		String baseDir = "C:/workspace/04_Servlet/jspProject/board/";
+		String baseDir = "C:/workspace/04_Servlet/jspProject/fileRepository/";
 		String saveDir = baseDir + boardNo + "/";
 		
 		File file = new File(saveDir + fileName);
@@ -172,8 +175,8 @@ public class BoardDao {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, boardNo);
 			pstmt.setString(2, fileName);
-			pstmt.setString(3, saveDir + fileName);
-			pstmt.setString(4, saveDir + fileName); // CHANGE_NAME이지만, 처음은 ORIGIN_NAME와 같은 값으로 설정 후 update로 변경
+			pstmt.setString(3,  fileName); // CHANGE_NAME이지만, 처음은 ORIGIN_NAME와 같은 값으로 설정 후 update로 변경
+			pstmt.setString(4, saveDir + fileName); // FILE PATH
 			pstmt.setInt(5, file.isFile() == true ? 2 : 1); //file이 파일일경우 파일레벨을 2로 저장, 아닐경우 1로 저장. (2는 파일 시스템의 마지막 부분, 1은 file의 부모인 폴더)
 			
 			result = pstmt.executeUpdate();
