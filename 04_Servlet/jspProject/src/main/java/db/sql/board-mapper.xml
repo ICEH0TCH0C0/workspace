@@ -31,12 +31,34 @@
         )
         VALUES (
         		SEQ_BNO.NEXTVAL, 
-        		1, 
+        		?, 
         		?, 
         		?, 
         		?, 
         		?
         )
+    </entry>
+    <entry key="insertAttachment">
+    	INSERT INTO ATTACHMENT (
+    							 FILE_NO,
+								 REF_BNO,
+								 ORIGIN_NAME,
+								 CHANGE_NAME,
+								 FILE_PATH,
+								 FILE_LEVEL 
+    	)
+    	VALUES (
+    			SEQ_FNO.NEXTVAL,
+    			?,
+    			?,
+    			?,
+    			?,
+    			?	
+    	)
+    </entry>
+    <entry key="selectBoardNo">
+    	SELECT SEQ_BNO.CURRVAL
+    	FROM DUAL
     </entry>
     <entry key="increaseCount">
         UPDATE BOARD

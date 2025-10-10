@@ -12,6 +12,8 @@ import com.kh.jsp.model.dao.BoardDao;
 import com.kh.jsp.model.vo.Board;
 import com.kh.jsp.model.vo.Category;
 
+import jakarta.servlet.http.Part;
+
 public class BoardService {
 	
 	// 카테고리 목록 조회
@@ -24,18 +26,32 @@ public class BoardService {
 	}
 	
 	// 게시글 등록
-	public int insertBoard(Board b, int categoryNo) {
+	public Boolean insertBoard(Board b, int categoryNo, Part file ) {
 		Connection conn = getConnection();
+		boolean insertcheck = false; // 플레그 생성
 		
-		int result = new BoardDao().insertBoard(conn, b, categoryNo);
-		
-		if(result > 0) {
+		try {
+			int boardNo = new BoardDao().insertBoard(conn, b, categoryNo);
+			System.out.println(boardNo);
+			if(boardNo == 0) throw new Exception("Board INSERT 실패");
+			// insert 실패시 오류를 만들고 던지면 밖의 catch가 잡아서 rollback
+			
+			if(file != null && file.getSize() > 0) {
+				int result = new BoardDao().insertFile(conn, file, boardNo);
+				if(result == 0) throw new Exception("파일 INSERT 실패");
+				// insert 실패시 오류를 만들고 던지면 밖의 catch가 잡아서 rollback
+				System.out.println(result);
+			}
+
 			commit(conn);
-		} else {
+			insertcheck = true; //플레그 전환
+			
+		} catch (Exception e) {
 			rollback(conn);
+		} finally {
+			close(conn);
 		}
-		close(conn);
-		return result;
+		return insertcheck;
 	}
 	
 	// 게시글 목록 조회

@@ -2,8 +2,10 @@ package com.kh.jsp.model.dao;
 
 import static com.kh.jsp.common.JDBCTemplate.close;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -14,6 +16,8 @@ import java.util.Properties;
 import com.kh.jsp.common.JDBCTemplate;
 import com.kh.jsp.model.vo.Board;
 import com.kh.jsp.model.vo.Category;
+
+import jakarta.servlet.http.Part;
 
 public class BoardDao {
 	private Properties prop = new Properties();
@@ -98,16 +102,79 @@ public class BoardDao {
 	
 	// DB에 게시글 삽입
 	public int insertBoard(Connection conn, Board b, int categoryNo) {
-		int result = 0;
-		PreparedStatement pstmt = null; // b.getBoardWriter()는 이제 String(MEMBER_ID)이므로, 실제 INSERT에는 회원번호가 필요함
 		String sql = prop.getProperty("insertBoard");
+		int result = 0;
+		try (PreparedStatement pstmt1 = conn.prepareStatement(sql)){
+
+			pstmt1.setInt(1, b.getBoardType());
+			pstmt1.setInt(2, categoryNo);
+			pstmt1.setString(3, b.getBoardTitle());
+			pstmt1.setString(4, b.getBoardContent());
+			pstmt1.setInt(5, Integer.parseInt(b.getBoardWriter())); // boardWriter는 회원번호이므로 int로 변환하여 설정
+			
+			result = pstmt1.executeUpdate();
+
+			if(b.getBoardType() == 2) {
+				try(PreparedStatement pstmt2 = conn.prepareStatement(prop.getProperty("selectBoardNo"));
+					ResultSet rset = pstmt2.executeQuery()) {
+					if(rset.next()) {
+						result = rset.getInt(1); // insert와 boardNo 검색 성공시 BoardNo를 반환
+					}
+				}
+				catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return result; 
+	}
+	
+	public int selectBoardNo(Connection conn) {
+		PreparedStatement pstmt1 = null;
+		ResultSet rset = null;
+		int boardNo = 0;
+		String sql = prop.getProperty("selectBoardNo"); //SEQ_BNO.CURRVAL를 이용
+		
+		try {
+			pstmt1 = conn.prepareStatement(sql);
+			rset = pstmt1.executeQuery();
+			
+			if(rset.next()) {
+				boardNo = rset.getInt("SEQ_BNO.CURRVAL");
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt1);
+		}
+		
+		return boardNo;
+	}
+	
+	public int insertFile(Connection conn, Part upfile, int boardNo) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("insertAttachment");
+		
+		String fileName = Paths.get(upfile.getSubmittedFileName()).getFileName().toString(); // 파일 이름 가져오기 file.getName은 java io이며, 서블릿은 이 방법으로 사용
+		
+		String baseDir = "C:/workspace/04_Servlet/jspProject/board/";
+		String saveDir = baseDir + boardNo + "/";
+		
+		File file = new File(saveDir + fileName);
+		
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, categoryNo);
-			pstmt.setString(2, b.getBoardTitle());
-			pstmt.setString(3, b.getBoardContent());
-			pstmt.setInt(4, Integer.parseInt(b.getBoardWriter())); // boardWriter는 회원번호이므로 int로 변환하여 설정
+			pstmt.setInt(1, boardNo);
+			pstmt.setString(2, fileName);
+			pstmt.setString(3, saveDir + fileName);
+			pstmt.setString(4, saveDir + fileName); // CHANGE_NAME이지만, 처음은 ORIGIN_NAME와 같은 값으로 설정 후 update로 변경
+			pstmt.setInt(5, file.isFile() == true ? 2 : 1); //file이 파일일경우 파일레벨을 2로 저장, 아닐경우 1로 저장. (2는 파일 시스템의 마지막 부분, 1은 file의 부모인 폴더)
 			
 			result = pstmt.executeUpdate();
 			
@@ -116,6 +183,7 @@ public class BoardDao {
 		} finally {
 			close(pstmt);
 		}
+		
 		return result;
 	}
 	
