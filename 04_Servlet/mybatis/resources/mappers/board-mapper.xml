@@ -4,6 +4,7 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
 <mapper namespace="BoardMapper">
+
 	<resultMap id="boardResultMap" type="Board">
 		<result column="BOARD_NO" property="boardNo"/>
 		<result column="CATEGORY_NAME" property="categoryName"/>
@@ -12,6 +13,16 @@
 		<result column="COUNT" property="count"/>
 		<result column="CREATE_DATE" property="createDate"/>
 	</resultMap>
+
+	<resultMap id="attachmentResultMap" type="Attachment">
+		<result column="FILE_NO" property="fileNo"/>
+		<result column="REF_BNO" property="refBoardNo"/>
+		<result column="ORIGIN_NAME" property="originName"/>
+		<result column="CHANGE_NAME" property="changeName"/>
+		<result column="FILE_PATH" property="filePath"/>
+		<result column="FILE_LEVEL" property="fileLevel"/>
+	</resultMap>
+	
 	<select id="selectAllBoardCount" resultType="_int">
 		SELECT COUNT(*)
 		FROM BOARD
@@ -30,5 +41,34 @@
         WHERE B.STATUS = 'Y'
         AND BOARD_TYPE = 1
         ORDER BY BOARD_NO DESC
+	</select>
+	<update id="increaseCount" parameterType="_int">
+		UPDATE BOARD
+		   SET COUNT = COUNT + 1
+		 WHERE BOARD_NO = #{boardNo}
+		   AND STATUS = 'Y'
+	</update>
+	<select id="selectBoardByBoardNo" parameterType="_int" resultMap="boardResultMap">
+		SELECT BOARD_NO,
+				CATEGORY_NAME,
+				CATEGORY_NO,
+				BOARD_TITLE,
+				BOARD_CONTENT,
+				MEMBER_ID,
+				TO_CHAR(CREATE_DATE, 'YYYY-MM-DD') AS "CREATE_DATE"
+		FROM BOARD B
+		LEFT JOIN CATEGORY USING(CATEGORY_NO)
+		JOIN MEMBER M ON(BOARD_WRITER = MEMBER_NO)
+		WHERE B.STATUS = 'Y'
+		AND BOARD_NO = #{boardNo}
+	</select>
+	<select id="selectAttachment" parameterType="_int" resultMap="attachmentResultMap">
+		SELECT FILE_NO,
+				ORIGIN_NAME,
+				CHANGE_NAME,
+				FILE_PATH,
+				FILE_LEVEL
+		  FROM ATTACHMENT
+		 WHERE REF_BNO = #{refBoardNo}
 	</select>
 </mapper>

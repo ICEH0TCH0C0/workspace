@@ -7,6 +7,7 @@ import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
 
 import com.kh.mybatis.common.vo.PageInfo;
+import com.kh.mybatis.model.vo.Attachment;
 import com.kh.mybatis.model.vo.Board;
 
 public class BoardDao {
@@ -29,8 +30,22 @@ public class BoardDao {
 		
 		ArrayList<Board> list = (ArrayList)sqlSession.selectList("BoardMapper.selectAllBoard", null, rowBounds);
 		
-		return list;
-		
+		return list;	
 	}
 	
+	public int increaseCount(SqlSession sqlSession, int boardNo) {
+		return sqlSession.update("BoardMapper.increaseCount", boardNo);
+	}
+	
+	public Board selectBoardByBoardNo(SqlSession sqlSession, int boardNo) {
+		Board b = sqlSession.selectOne("BoardMapper.selectBoardByBoardNo", boardNo);
+		
+		return b;
+	}
+	
+	public Attachment selectAttachment(SqlSession sqlSession, int boardNo) {
+		Attachment at = sqlSession.selectOne("BoardMapper.selectAttachment", boardNo);
+		
+		return at;
+	}
 }
