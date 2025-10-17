@@ -100,4 +100,20 @@ public class BoardService {
 		
 		return result;
 	}
+	
+	public int deleteBoard(int boardNo) {
+		SqlSession sqlSession = Template.getSqlSession();
+		
+		int result = boardDao.deleteBoard(sqlSession, boardNo);
+		
+		if(result > 0) {
+			sqlSession.commit();
+		} else {
+			sqlSession.rollback();
+		}
+		
+		sqlSession.close();
+		
+		return result;
+	}
 }

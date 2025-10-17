@@ -64,4 +64,8 @@ public class BoardDao {
 	public int insertAttachment(SqlSession sqlSession, Attachment at) {
 		return sqlSession.insert("BoardMapper.insertAttachment", at);
 	}
+	
+	public int deleteBoard(SqlSession sqlSession, int boardNo) {
+		return sqlSession.update("BoardMapper.deleteBoard", boardNo);
+	}
 }
