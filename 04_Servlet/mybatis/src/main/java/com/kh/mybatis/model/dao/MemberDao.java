@@ -29,4 +29,14 @@ public class MemberDao {
 	public int insertMember(SqlSession sqlSession, Member m) {
 		return sqlSession.insert("MemberMapper.insertMember", m);
 	}
+	
+	public int updateMember(SqlSession sqlSession, Member updateMember) {
+		return sqlSession.update("MemberMapper.updateMember", updateMember);
+	}
+	
+	public Member selectMemberByUserId(SqlSession sqlSession, String memberId) {
+		Member updateMember = sqlSession.selectOne("MemberMapper.selectMemberByUserId", memberId);
+		
+		return updateMember;
+	}
 }
