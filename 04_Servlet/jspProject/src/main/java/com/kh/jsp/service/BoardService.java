@@ -6,115 +6,192 @@ import static com.kh.jsp.common.JDBCTemplate.getConnection;
 import static com.kh.jsp.common.JDBCTemplate.rollback;
 
 import java.sql.Connection;
-import java.util.List;
+import java.util.ArrayList;
 
+import com.kh.jsp.common.vo.PageInfo;
 import com.kh.jsp.model.dao.BoardDao;
+import com.kh.jsp.model.vo.Attachment;
 import com.kh.jsp.model.vo.Board;
 import com.kh.jsp.model.vo.Category;
-
-import jakarta.servlet.http.Part;
+import com.kh.jsp.model.vo.Reply;
 
 public class BoardService {
 	
-	// 카테고리 목록 조회
-	public List<Category> selectCategory() {
+	public int selectAllBoardCount(){
 		Connection conn = getConnection();
 		
-		List<Category> list= new BoardDao().selectCategory(conn);
+		int listCount = new BoardDao().selectAllBoardCount(conn);
 		close(conn);
+		
+		return listCount;
+	}
+	
+	public ArrayList<Board> selectAllBoard(PageInfo pi){
+		Connection conn = getConnection();
+		
+		ArrayList<Board> list = new BoardDao().selectAllBoard(conn, pi);
+		close(conn);
+		
 		return list;
 	}
 	
-	// 게시글 등록
-	public Boolean insertBoard(Board b, int categoryNo, Part file ) {
+	public ArrayList<Board> selectThumnailList(){
 		Connection conn = getConnection();
-		boolean insertcheck = false; // 플레그 생성
 		
-		try {
-			int boardNo = new BoardDao().insertBoard(conn, b, categoryNo);
-			System.out.println(boardNo);
-			if(boardNo == 0) throw new Exception("Board INSERT 실패");
-			// insert 실패시 오류를 만들고 던지면 밖의 catch가 잡아서 rollback
-			
-			if(file != null && file.getSize() > 0) {
-				int result = new BoardDao().insertFile(conn, file, boardNo);
-				if(result == 0) throw new Exception("파일 INSERT 실패");
-				// insert 실패시 오류를 만들고 던지면 밖의 catch가 잡아서 rollback
-				System.out.println(result);
-			}
-
+		ArrayList<Board> list = new BoardDao().selectThumnailList(conn);
+		close(conn);
+		
+		return list;
+	}
+	
+	public int deleteReply(int replyNo){
+		Connection conn = getConnection();
+		
+		int result = new BoardDao().deleteReply(conn, replyNo);
+		if(result > 0) {
 			commit(conn);
-			insertcheck = true; //플레그 전환
-			
-		} catch (Exception e) {
+		} else {
 			rollback(conn);
-		} finally {
-			close(conn);
 		}
-		return insertcheck;
-	}
-	
-	public String selectFilePath(int boardNo) {
-		Connection conn = getConnection();
-		String upfilePath = new BoardDao().selectFilePath(conn, boardNo);
+		
 		close(conn);
-		
-		return upfilePath;
+		return result;
 	}
 	
-	// 게시글 목록 조회
-	public List<Board> selectList(){
+	public int increaseCount(int boardNo) {
 		Connection conn = getConnection();
 		
-		List<Board> list = new BoardDao().selectList(conn);
+		int result = new BoardDao().increaseCount(conn, boardNo);
+		if(result > 0) {
+			commit(conn);
+		} else {
+			rollback(conn);
+		}
+		
+		close(conn);
+		return result;
+	}
+	
+	public Board selectBoardByBoardNo(int boardNo) {
+		Connection conn = getConnection();
+		
+		Board board = new BoardDao().selectBoardByBoardNo(conn, boardNo);
+	
+		close(conn);
+		return board;
+	}
+	
+	public Attachment selectAttachment(int boardNo) {
+		Connection conn = getConnection();
+		
+		Attachment at = new BoardDao().selectAttachment(conn, boardNo);
+		
+		close(conn);
+		return at;
+	}
+	
+	public ArrayList<Attachment> selectAttachmentList(int boardNo) {
+		Connection conn = getConnection();
+		
+		ArrayList<Attachment> list = new BoardDao().selectAttachmentList(conn, boardNo);
+		
 		close(conn);
 		return list;
 	}
 	
-	// 게시글 상세 조회 (조회수 증가)
-	public Board selectBoard(int boardNo) {
+	public ArrayList<Category> selectAllCategory() {
+		Connection conn = getConnection();
+		
+		ArrayList<Category> categroyList = new BoardDao().selectAllCategory(conn);
+	
+		close(conn);
+		return categroyList;
+	}
+	
+	public int updateBoard(Board b, Attachment at) {
+		//새로운 첨부파일이 존재하지 않을 때  -> (b, null) -> board update
+		//새로운 첨부파일이 존재하고 기존첨부파일이 존재할 때 -> (b, at(fileNo)) -> board update, attachment update
+		//새로운 첨부파일이 존재하고 기존첨부파일이 존재하지 않을 때 -> (b, at(refBoardNo)) -> board update, attachment insert
+	
 		Connection conn = getConnection();
 		BoardDao boardDao = new BoardDao();
 		
-		// 1. 조회수 증가
-		int result = boardDao.increaseCount(conn, boardNo);
+		int result = boardDao.updateBoard(conn, b);
 		
-		Board b = null;
-		if(result > 0) { // 조회수 증가 성공 시
-			commit(conn);
-			// 2. 게시글 조회
-			b = boardDao.selectBoard(conn, boardNo);
-		} else { // 실패 시
-			rollback(conn);
+		if(at != null) {
+			if(at.getFileNo() != 0) { //기존첨부파일이 존재할 때
+				result *= boardDao.updateAttachment(conn, at);
+			} else { //기존첨부파일이 존재하지 않을 때
+				result *= boardDao.insertNewAttachment(conn, at);
+			}
 		}
-		close(conn);
-		return b;
-	}
-	
-	// 게시글 수정 페이지용 상세 조회 (조회수 증가 X)
-	public Board selectUpdateBoard(int boardNo) {
-		Connection conn = getConnection();
-		Board b = new BoardDao().selectBoard(conn, boardNo);
-		close(conn);
-		return b;
-	}
-	
-	// 게시글 수정
-	public int updateBoard(Board b) {
-		Connection conn = getConnection();
-		
-		int result = new BoardDao().updateBoard(conn, b);
 		
 		if(result > 0) {
 			commit(conn);
 		} else {
 			rollback(conn);
 		}
+		
 		close(conn);
 		return result;
 	}
 	
-	// 게시글 삭제
+	public int insertBoard(Board b, Attachment at) {
+		Connection conn = getConnection();
+		
+		BoardDao bDao = new BoardDao();
+		
+		b.setBoardType(1);
+		int result = bDao.insertBoard(conn, b);
+		
+		if(at != null) {
+			result *= bDao.insertAttachment(conn, at);
+		}
+		
+		if(result > 0) {
+			commit(conn);
+		} else {
+			rollback(conn);
+		}
+		
+		close(conn);
+		return result;
+	}
+	
+	public int insertBoard(Board b, ArrayList<Attachment> list) {
+		Connection conn = getConnection();
+		
+		BoardDao bDao = new BoardDao();
+		
+		b.setBoardType(2);
+		int result = bDao.insertBoard(conn, b);
+		result *= bDao.insertAttachment(conn, list);
+		
+		if(result > 0) {
+			commit(conn);
+		} else {
+			rollback(conn);
+		}
+		
+		close(conn);
+		return result;
+	}
+	
+	public int insertReply(Reply r) {
+		Connection conn = getConnection();
+		
+		int result = new BoardDao().insertReply(conn, r);
+		
+		if(result > 0) {
+			commit(conn);
+		} else {
+			rollback(conn);
+		}
+		
+		close(conn);
+		return result;
+	}
+	
 	public int deleteBoard(int boardNo) {
 		Connection conn = getConnection();
 		
@@ -128,4 +205,15 @@ public class BoardService {
 		close(conn);
 		return result;
 	}
+	
+	public ArrayList<Reply> selectReplyByBoardNo(int boardNo){
+		Connection conn = getConnection();
+		
+		ArrayList<Reply> list = new BoardDao().selectReplyByBoardNo(conn, boardNo);
+		
+		close(conn);
+		return list;
+	}
+	
+	
 }

@@ -24,20 +24,20 @@ public class DeleteController extends HttpServlet {
 		HttpSession session = request.getSession();
 		Member loginMember = (Member)session.getAttribute("loginMember");
 		
-		// 1. 로그인 확인
+		// 로그인 확인
 		if(loginMember == null) {
 			session.setAttribute("alertMsg", "로그인 후 이용해주세요.");
 			response.sendRedirect(request.getContextPath()); 
 			return;
 		}
 		
-		// 2. 삭제할 게시글 번호 추출
+		// 삭제할 게시글 번호 추출
 		int boardNo = Integer.parseInt(request.getParameter("bno"));
 		
-		// 3. Service로 요청 전달 및 결과 받기
+		// Service로 요청 전달 및 결과 받기
 		int result = new BoardService().deleteBoard(boardNo);
 		
-		// 4. 결과에 따른 응답 처리
+		// 결과에 따른 응답 처리
 		if(result > 0) { // 성공
 			session.setAttribute("alertMsg", "게시글이 성공적으로 삭제되었습니다.");
 			response.sendRedirect(request.getContextPath() + "/list.bo");

@@ -2,6 +2,7 @@ package com.kh.jsp.controller.board;
 
 import java.io.IOException;
 
+import com.kh.jsp.model.vo.Attachment;
 import com.kh.jsp.model.vo.Board;
 import com.kh.jsp.service.BoardService;
 
@@ -11,36 +12,53 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+/**
+ * Servlet implementation class DetailController
+ */
 @WebServlet("/detail.bo")
 public class DetailController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
     public DetailController() {
         super();
+        // TODO Auto-generated constructor stub
     }
 
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// 1. 게시글 번호, fileName
+		//board정보를 조회해서 detailView.jsp을 응답
+		
 		int boardNo = Integer.parseInt(request.getParameter("bno"));
+		BoardService boardService = new BoardService();
 		
-		// 2. BoardService의 selectBoard 메소드 호출 (조회수 증가 + 게시글 조회)
-		Board b = new BoardService().selectBoard(boardNo);
-		String upfilePath = new BoardService().selectFilePath(boardNo);
+		//board의 조회수 1 증가
+		int result = boardService.increaseCount(boardNo);
+		Board board = boardService.selectBoardByBoardNo(boardNo);
 		
-		// 3. 조회 결과에 따라 응답 페이지 지정
-		if(b != null) { // 조회 성공
-			// request에 조회된 Board 객체를 "board"라는 키로 담기
-			request.setAttribute("board", b);
-			request.setAttribute("upfile", upfilePath);
-			// detailView.jsp로 포워딩
+		if(result > 0 && board != null) {
+			//at조회 -> request담기
+			Attachment at = boardService.selectAttachment(board.getBoardNo());
+			
+			request.setAttribute("board", board);
+			request.setAttribute("at", at);
+			
 			request.getRequestDispatcher("views/board/detailView.jsp").forward(request, response);
-		} else { // 조회 실패
-			request.setAttribute("errorMsg", "게시글 상세조회에 실패했습니다.");
+		} else {
+			request.setAttribute("errorMsg", "정상적인 접근이 아닙니다.");
 			request.getRequestDispatcher("views/common/error.jsp").forward(request, response);
 		}
 	}
 
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
 

@@ -81,4 +81,9 @@
 		WHERE MEMBER_ID = ?
 		AND STATUS = 'Y'
 	</entry>
+	<entry key="idCheck">
+		SELECT COUNT(*) AS "COUNT"
+		FROM MEMBER
+		WHERE MEMBER_ID = ?
+	</entry>
 </properties>
