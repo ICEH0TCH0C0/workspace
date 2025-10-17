@@ -63,15 +63,15 @@ public class MemberService {
 		return updateMember;
 	}
 	
-	public Member updateMemberPwd(String memberId, String memberPwd) {
+	public Member updateMemberPwd(String userId, String usesrPwd) {
 		SqlSession sqlSession = Template.getSqlSession();
 		
-		int result = memberDao.updateMemberPwd(sqlSession, memberId, memberPwd);
+		int result = memberDao.updateMemberPwd(sqlSession, userId, usesrPwd);
 		Member updateMember = null;
 		
 		if(result > 0) {
 			sqlSession.commit();
-			updateMember = new MemberDao().selectMemberByUserId(sqlSession, memberId);
+			updateMember = new MemberDao().selectMemberByUserId(sqlSession, userId);
 		} else {
 			sqlSession.rollback();
 		}
@@ -79,5 +79,21 @@ public class MemberService {
 		sqlSession.close();
 		
 		return updateMember;
+	}
+	
+	public int deleteMember(String userId) {
+		SqlSession sqlSession = Template.getSqlSession();
+		
+		int result = memberDao.deleteMember(sqlSession, userId);
+		
+		if(result > 0) {
+			sqlSession.commit();
+		} else {
+			sqlSession.rollback();
+		}
+		
+		sqlSession.close();
+		
+		return result;
 	}
 }

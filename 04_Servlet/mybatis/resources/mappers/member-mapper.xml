@@ -102,4 +102,11 @@
 		WHERE MEMBER_ID = #{memberId}
 		AND STATUS = 'Y'
 	</update>
+	<update id="deleteMember" parameterType="string">
+		UPDATE MEMBER
+		SET MODIFY_DATE = SYSDATE,
+			STATUS = 'N'
+		WHERE MEMBER_ID = #{memberId}
+		AND STATUS = 'Y'
+	</update>
 </mapper>
