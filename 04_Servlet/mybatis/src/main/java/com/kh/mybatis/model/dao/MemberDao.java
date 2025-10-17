@@ -39,4 +39,12 @@ public class MemberDao {
 		
 		return updateMember;
 	}
+	
+	public int updateMemberPwd(SqlSession sqlSession, String userId, String userPwd) {
+		HashMap<String, String> map = new HashMap<>();
+		map.put("memberId", userId);
+		map.put("memberPwd", userPwd);
+		
+		return sqlSession.update("MemberMapper.updateMemberPwd", map);
+	}
 }

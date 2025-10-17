@@ -50,9 +50,28 @@ public class MemberService {
 		
 		int result = memberDao.updateMember(sqlSession, m);
 		Member updateMember = null;
+		
 		if(result > 0) {
 			sqlSession.commit();
 			updateMember = new MemberDao().selectMemberByUserId(sqlSession, m.getMemberId());
+		} else {
+			sqlSession.rollback();
+		}
+		
+		sqlSession.close();
+		
+		return updateMember;
+	}
+	
+	public Member updateMemberPwd(String memberId, String memberPwd) {
+		SqlSession sqlSession = Template.getSqlSession();
+		
+		int result = memberDao.updateMemberPwd(sqlSession, memberId, memberPwd);
+		Member updateMember = null;
+		
+		if(result > 0) {
+			sqlSession.commit();
+			updateMember = new MemberDao().selectMemberByUserId(sqlSession, memberId);
 		} else {
 			sqlSession.rollback();
 		}
