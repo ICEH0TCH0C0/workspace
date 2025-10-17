@@ -9,6 +9,7 @@ import com.kh.mybatis.common.vo.PageInfo;
 import com.kh.mybatis.model.dao.BoardDao;
 import com.kh.mybatis.model.vo.Attachment;
 import com.kh.mybatis.model.vo.Board;
+import com.kh.mybatis.model.vo.Category;
 
 public class BoardService {
 	private BoardDao boardDao = new BoardDao();
@@ -67,5 +68,36 @@ public class BoardService {
 		sqlSession.close();
 		
 		return at;
+	}
+	
+	public ArrayList<Category> selectAllCategory() {
+		SqlSession sqlSession = Template.getSqlSession();
+		
+		ArrayList<Category> list = boardDao.selectAllCategory(sqlSession);
+		
+		sqlSession.close();
+		
+		return list;
+	}
+	
+	public int insertBoard(Board b, Attachment at) {
+		SqlSession sqlSession = Template.getSqlSession();
+		
+		b.setBoardType(1);
+		int result = boardDao.insertBoard(sqlSession, b);
+		
+		if(at != null) {
+			result *= boardDao.insertAttachment(sqlSession, at);
+		}
+		
+		if(result > 0) {
+			sqlSession.commit();
+		} else {
+			sqlSession.rollback();
+		}
+		
+		sqlSession.close();
+		
+		return result;
 	}
 }

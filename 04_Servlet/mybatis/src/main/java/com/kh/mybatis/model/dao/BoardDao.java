@@ -1,6 +1,7 @@
 package com.kh.mybatis.model.dao;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.ibatis.session.RowBounds;
@@ -9,6 +10,7 @@ import org.apache.ibatis.session.SqlSession;
 import com.kh.mybatis.common.vo.PageInfo;
 import com.kh.mybatis.model.vo.Attachment;
 import com.kh.mybatis.model.vo.Board;
+import com.kh.mybatis.model.vo.Category;
 
 public class BoardDao {
 	
@@ -47,5 +49,19 @@ public class BoardDao {
 		Attachment at = sqlSession.selectOne("BoardMapper.selectAttachment", boardNo);
 		
 		return at;
+	}
+	
+	public ArrayList<Category> selectAllCategory(SqlSession sqlSession) {
+		ArrayList<Category> list = (ArrayList)sqlSession.selectList("BoardMapper.selectAllCategory");
+		
+		return list;
+	}
+	
+	public int insertBoard(SqlSession sqlSession, Board b) {
+		return sqlSession.insert("BoardMapper.insertBoard", b);
+	}
+	
+	public int insertAttachment(SqlSession sqlSession, Attachment at) {
+		return sqlSession.insert("BoardMapper.insertAttachment", at);
 	}
 }

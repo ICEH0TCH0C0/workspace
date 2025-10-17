@@ -7,8 +7,12 @@
 
 	<resultMap id="boardResultMap" type="Board">
 		<result column="BOARD_NO" property="boardNo"/>
+		<result column="BOARD_TYPE" property="boardType"/>
+		<result column="CATEGORY_NO" property="categoryNo"/>
 		<result column="CATEGORY_NAME" property="categoryName"/>
 		<result column="BOARD_TITLE" property="boardTitle"/>
+		<result column="BOARD_CONTENT" property="boardContent"/>
+		<result column="BOARD_WRITER" property="boardWriter"/>
 		<result column="MEMBER_ID" property="memberId"/>
 		<result column="COUNT" property="count"/>
 		<result column="CREATE_DATE" property="createDate"/>
@@ -21,6 +25,11 @@
 		<result column="CHANGE_NAME" property="changeName"/>
 		<result column="FILE_PATH" property="filePath"/>
 		<result column="FILE_LEVEL" property="fileLevel"/>
+	</resultMap>
+	
+	<resultMap id="categoryResultMap" type="Category">
+		<result column="CATEGORY_NO" property="categoryNo"/>
+		<result column="CATEGORY_NAME" property="categoryName"/>
 	</resultMap>
 	
 	<select id="selectAllBoardCount" resultType="_int">
@@ -71,4 +80,43 @@
 		  FROM ATTACHMENT
 		 WHERE REF_BNO = #{refBoardNo}
 	</select>
+	<select id="selectAllCategory" resultMap="categoryResultMap">
+		SELECT CATEGORY_NO,
+				CATEGORY_NAME
+		FROM CATEGORY
+	</select>
+	<insert id="insertBoard" parameterType="Board">
+		INSERT
+		INTO BOARD(
+			BOARD_NO,
+			BOARD_TYPE,
+			CATEGORY_NO,
+			BOARD_TITLE,
+			BOARD_CONTENT,
+			BOARD_WRITER
+		) VALUES(
+			SEQ_BNO.NEXTVAL,
+			#{boardType},
+			#{categoryNo},
+			#{boardTitle},
+			#{boardContent},
+			#{boardWriter}
+		)
+	</insert>
+	<insert id="insertAttachment" parameterType="Attachment">
+		INSERT
+		INTO ATTACHMENT(
+			FILE_NO,
+			REF_BNO,
+			ORIGIN_NAME,
+			CHANGE_NAME,
+			FILE_PATH
+		) VALUES(
+			SEQ_FNO.NEXTVAL,
+			SEQ_BNO.CURRVAL,
+			#{originName},
+			#{changeName},
+			#{filePath}
+		)
+	</insert>
 </mapper>
