@@ -111,11 +111,11 @@
             <div id="search-area">
                 <form action="${pageContext.request.contextPath}/search.bo">
                     <select name="condition" id="">
-                        <option value="writer">작성자</option>
-                        <option value="title">제목</option>
-                        <option value="content">내용</option>
+                        <option value="writer" ${condition == 'writer' ? selected : ''}>작성자</option>
+                        <option value="title" ${condition == 'title' ? selected : ''}>제목</option>
+                        <option value="content" ${condition == 'content' ? selected : ''}>내용</option>
                     </select>
-                    <input type="text" name="keyword" placeholder="검색어를 입력하세요.">
+                    <input type="text" name="keyword" placeholder="검색어를 입력하세요." value="${keyword}">
                     <button class="btn btn-primary btn-sm" type="submit">검색</button>
                 </form>
             </div>
@@ -146,35 +146,70 @@
             </table>
 
             <div class="pagination">
-            	<c:if test="${pi.currentPage > 1}">
-	                <button class="btn btn-primary"
-	                		onclick="location.href='${pageContext.request.contextPath}/list.bo?cpage=${pi.currentPage - 1}'">
-	                	&lt; 이전
-	                </button>
-                </c:if>
+            	<c:choose>
+            		<c:when test="${empty condtion}">
+            			<c:if test="${pi.currentPage > 1}">
+			                <button class="btn btn-primary"
+			                		onclick="location.href='${pageContext.request.contextPath}/list.bo?cpage=${pi.currentPage - 1}'">
+			                	&lt; 이전
+			                </button>
+		                </c:if>
                 
-                <c:forEach var="i" begin="${pi.startPage}" end="${pi.endPage}">
-                	<c:choose>
-                		<c:when test="${i == pi.currentPage}">
-                		    <button class="btn btn-outline-primary" disabled>
-		                		${i}
-		                	</button>
-                		</c:when>
-                		<c:otherwise>
-		                	<button class="btn btn-outline-primary" 
-		                		onclick="location.href='${pageContext.request.contextPath}/list.bo?cpage=${i}'">
-		                		${i}
-		                	</button>
-                		</c:otherwise>
-                	</c:choose>
-                </c:forEach>    	
+		                <c:forEach var="i" begin="${pi.startPage}" end="${pi.endPage}">
+		                	<c:choose>
+		                		<c:when test="${i == pi.currentPage}">
+		                		    <button class="btn btn-outline-primary" disabled>
+				                		${i}
+				                	</button>
+		                		</c:when>
+		                		<c:otherwise>
+				                	<button class="btn btn-outline-primary" 
+				                		onclick="location.href='${pageContext.request.contextPath}/list.bo?cpage=${i}'">
+				                		${i}
+				                	</button>
+		                		</c:otherwise>
+		                	</c:choose>
+		                </c:forEach>    	
               	
-              	<c:if test="${pi.currentPage < pi.maxPage}">
-	                <button class="btn btn-primary"
-	                		onclick="location.href='${pageContext.request.contextPath}/list.bo?cpage=${pi.currentPage + 1}'">
-	                	다음 &gt;
-	                </button>
-                </c:if>
+		              	<c:if test="${pi.currentPage < pi.maxPage}">
+			                <button class="btn btn-primary"
+			                		onclick="location.href='${pageContext.request.contextPath}/list.bo?cpage=${pi.currentPage + 1}'">
+			                	다음 &gt;
+			                </button>
+		                </c:if>
+            		</c:when>
+            		<c:otherwise>
+            			<c:if test="${pi.currentPage > 1}">
+			                <button class="btn btn-primary"
+			                		onclick="location.href='${pageContext.request.contextPath}/search.bo?cpage=${pi.currentPage - 1}&condtion=${condtion}&keyword=${keyword}'">
+			                	&lt; 이전
+			                </button>
+		                </c:if>
+                
+		                <c:forEach var="i" begin="${pi.startPage}" end="${pi.endPage}">
+		                	<c:choose>
+		                		<c:when test="${i == pi.currentPage}">
+		                		    <button class="btn btn-outline-primary" disabled>
+				                		${i}
+				                	</button>
+		                		</c:when>
+		                		<c:otherwise>
+				                	<button class="btn btn-outline-primary" 
+				                		onclick="location.href='${pageContext.request.contextPath}/search.bo?cpage=${i}&condtion=${condtion}&keyword=${keyword}'">
+				                		${i}
+				                	</button>
+		                		</c:otherwise>
+		                	</c:choose>
+		                </c:forEach>    	
+              	
+		              	<c:if test="${pi.currentPage < pi.maxPage}">
+			                <button class="btn btn-primary"
+			                		onclick="location.href='${pageContext.request.contextPath}/search.bo?cpage=${pi.currentPage + 1}&condtion=${condtion}&keyword=${keyword}'">
+			                	다음 &gt;
+			                </button>
+		                </c:if>
+            		</c:otherwise>
+            	</c:choose>
             </div>
         </div>
     </div>
