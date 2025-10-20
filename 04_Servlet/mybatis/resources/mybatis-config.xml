@@ -15,6 +15,7 @@
 		<typeAlias type="com.kh.mybatis.model.vo.Board" alias="Board"/>
 		<typeAlias type="com.kh.mybatis.model.vo.Attachment" alias="Attachment"/>
 		<typeAlias type="com.kh.mybatis.model.vo.Category" alias="Category"/>
+		<typeAlias type="com.kh.mybatis.model.vo.Reply" alias="Reply"/>
 	</typeAliases>
 	
 	<!-- environments : mybatis실행시 연결할 디비정보 -->
@@ -29,7 +30,7 @@
 	    -->
 	    <dataSource type="POOLED">
 	      <property name="driver" value="oracle.jdbc.driver.OracleDriver"/>
-	      <property name="url" value="jdbc:oracle:thin:@localhost:1521:xe"/>
+	      <property name="url" value="jdbc:oracle:thin:@localhost:1522:xe"/>
 	      <property name="username" value="C##JSP"/>
 	      <property name="password" value="JSP"/>
 	    </dataSource>
