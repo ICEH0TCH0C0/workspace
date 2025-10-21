@@ -16,4 +16,5 @@ public interface MemberMapper {
     int addMember(Member member);
     //@Param을 사용하면 mapper.xml에서는 member.을 앞에 붙여야 하며
     //parameterType을 작성하지 말아야 한다.
+    int updateMember(Member member,  @Param("memberId") String memberId);
 }

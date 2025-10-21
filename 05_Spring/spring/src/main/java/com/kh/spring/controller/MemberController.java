@@ -147,7 +147,7 @@ public class MemberController {
     @PostMapping("login.me")
     public ModelAndView login(String memberId, String memberPwd, HttpSession httpSession, ModelAndView mv) {
         Member loginMember = memberService.getMemberById(memberId);
-        System.out.println(loginMember);
+//        System.out.println(loginMember);
 
         //memberPwd -> 암호화 되지 않은 pwd(평문)
         //loginMember.getMemberPwd() -> 암호화 된 pwd
@@ -221,8 +221,19 @@ public class MemberController {
     }
 
     @PostMapping("update.me")
-    public String updateMember(Member member, HttpSession httpSession, Model model) {
+    public String updateMember(Member member, String memberId, Model model) {
+        System.out.print(memberId);
+        System.out.println(member);
+        int result = memberService.updateMember(member, memberId);
+        System.out.println(result);
 
+        if(result > 0){
+            model.addAttribute("alertMsg", "회원정보가 수정되었습니다.");
+            return "member/myPage";
+        } else {
+            model.addAttribute("errorMsg", "회원정보 수정하는데 실패하였습니다");
+            return "common/error";
+        }
     }
 }
 

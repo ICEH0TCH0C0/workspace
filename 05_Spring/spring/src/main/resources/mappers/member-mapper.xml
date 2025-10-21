@@ -63,4 +63,14 @@
             #{interest}
         )
     </insert>
+    <update id="updateMember" parameterType="Member" >
+        UPDATE MEMBER
+        SET PHONE = #{phone},
+            EMAIL = #{email},
+            ADDRESS = #{address},
+            INTEREST = #{interest},
+            MODIFY_DATE = SYSDATE
+        WHERE MEMBER_ID = #{memberId}
+        AND STATUS = 'Y'
+    </update>
 </mapper>
