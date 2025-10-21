@@ -1,16 +1,13 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: user1
-  Date: 25. 10. 20.
-  Time: 오후 5:13
-  To change this template use File | Settings | File Templates.
---%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html lang="ko">
 <head>
-    <title>Title</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
 </head>
 <body>
-test
+	<jsp:include page="/WEB-INF/views/common/menubar.jsp"/>
 </body>
 </html>
