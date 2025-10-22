@@ -184,7 +184,7 @@
                 <form action="${pageContext.request.contextPath}/updatePwd.me" method="post">
                     <div class="mb-3">
                         <label for="currentPwd" class="form-label">현재 비밀번호</label>
-                        <input type="password" class="form-control" id="currentPwd" name="userPwd" required>
+                        <input type="password" class="form-control" id="currentPwd" name="memberPwd" required>
                     </div>
                     <div class="mb-3">
                         <label for="newPwd" class="form-label">변경할 비밀번호</label>

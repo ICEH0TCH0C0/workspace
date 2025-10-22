@@ -7,7 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 //Bean에 클래스 등록하는 방법 @Component를 클래스에 부여
@@ -221,17 +224,46 @@ public class MemberController {
     }
 
     @PostMapping("update.me")
-    public String updateMember(Member member, String memberId, Model model) {
-        System.out.print(memberId);
-        System.out.println(member);
-        int result = memberService.updateMember(member, memberId);
+    public String updateMember(Member member, HttpSession session, Model model) {
+        Member updateMember = (Member)session.getAttribute("loginMember");
+        System.out.println(updateMember);
+
+        updateMember.setPhone(member.getPhone());
+        updateMember.setEmail(member.getEmail());
+        updateMember.setAddress(member.getAddress());
+        updateMember.setInterest(member.getInterest());
+
+        int result = memberService.updateMember(updateMember);
         System.out.println(result);
 
         if(result > 0){
             model.addAttribute("alertMsg", "회원정보가 수정되었습니다.");
+            model.addAttribute("member", updateMember);
             return "member/myPage";
         } else {
             model.addAttribute("errorMsg", "회원정보 수정하는데 실패하였습니다");
+            return "common/error";
+        }
+    }
+
+    @PostMapping("updatePwd.me")
+    public String updatePwd(String updatePwd, HttpSession httpSession, Model model) {
+        Member loginMember = (Member)httpSession.getAttribute("loginMember");
+        String memberId = loginMember.getMemberId();
+        System.out.println(memberId);
+        String updatePwdEncode = bCryptPasswordEncoder.encode(updatePwd);
+        System.out.println(updatePwd);
+
+        int result = memberService.updatePwdMember(memberId, updatePwdEncode);
+
+        System.out.println(result);
+
+        if (result > 0){
+            model.addAttribute("updatePwd", updatePwd);
+            model.addAttribute("alertMsg", "비밀번호 변경되었습니다.");
+            return "member/myPage";
+        } else {
+            model.addAttribute("errorMsg", "비밀번호 변경이 실패되었습니다.");
             return "common/error";
         }
     }

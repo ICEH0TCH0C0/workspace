@@ -73,4 +73,11 @@
         WHERE MEMBER_ID = #{memberId}
         AND STATUS = 'Y'
     </update>
+    <update id="updatePwdMember" parameterType="hashmap">
+        UPDATE MEMBER
+        SET MEMBER_PWD = #{memberPwd},
+            MODIFY_DATE = SYSDATE
+        WHERE MEMBER_ID = #{memberId}
+        AND STATUS = 'Y'
+    </update>
 </mapper>

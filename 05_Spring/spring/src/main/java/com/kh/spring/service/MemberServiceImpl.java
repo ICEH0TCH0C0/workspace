@@ -5,6 +5,8 @@ import com.kh.spring.model.vo.Member;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
+
 @Service //@Component보다 더 구체화해서 service객체에 알맞게 bean등록
 public class MemberServiceImpl implements MemberService {
 
@@ -35,8 +37,18 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public int updateMember(Member member, String memberId) {
-        return memberMapper.updateMember(member, memberId);
+    public int updateMember(Member member) {
+        return memberMapper.updateMember(member);
     }
+
+    @Override
+    public int updatePwdMember(String memberId, String updatePwd) {
+        HashMap<String, String> map = new HashMap<>();
+        map.put("memberId", memberId);
+        map.put("memberPwd", updatePwd);
+
+        return memberMapper.updatePwdMember(map);
+    }
+
 
 }
