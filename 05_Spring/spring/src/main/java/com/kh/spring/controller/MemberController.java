@@ -267,5 +267,6 @@ public class MemberController {
             return "common/error";
         }
     }
+
 }
 
