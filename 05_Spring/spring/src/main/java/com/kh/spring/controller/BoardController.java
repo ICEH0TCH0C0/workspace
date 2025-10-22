@@ -1,7 +1,9 @@
 package com.kh.spring.controller;
 
 import com.kh.spring.model.vo.Board;
+import com.kh.spring.model.vo.PageInfo;
 import com.kh.spring.service.BoardService;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,8 +22,17 @@ public class BoardController {
 
 
     @GetMapping("list.bo")
-    public String listPage(Model model) {
-        ArrayList<Board> list  = boardService.selectAllBoard();
+    public String listPage(Model model, HttpServletRequest request) {
+
+        //-------------------페이징 처리-----------------------------
+        int currentPage = request.getParameter("cpage") != null ?
+                Integer.parseInt(request.getParameter("cpage")) : 1; //지금 보여줄 페이지(사용자가 요청한 페이지)
+        int listCount = boardService.selectAllBoardCount();//현재 총 게시글 수
+
+        PageInfo pi = new PageInfo(currentPage, listCount, 5, 5);
+        model.addAttribute("pi", pi);
+
+        ArrayList<Board> list  = boardService.selectAllBoard(pi);
         model.addAttribute("list", list);
 
         return "board/listView";

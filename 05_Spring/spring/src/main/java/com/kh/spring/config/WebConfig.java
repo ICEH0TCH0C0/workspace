@@ -25,7 +25,7 @@ public class WebConfig implements WebMvcConfigurer {
                 ).excludePathPatterns( //다만 이 경로들은 인터셉의 적용에서 제외
                         "/",
                         "/login.me",
-                        "enrollForm.me",
+                        "/enrollForm.me",
                         "/idDulpicateCheck.me",
                         "/insert.me",
                         "/static/**"

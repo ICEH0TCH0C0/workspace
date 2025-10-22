@@ -53,5 +53,11 @@
         JOIN MEMBER M ON(BOARD_WRITER = MEMBER_NO)
         WHERE B.STATUS = 'Y'
         AND BOARD_TYPE = 1
+        ORDER BY BOARD_NO DESC
+    </select>
+    <select id="selectAllBoardCount" resultType="_int">
+        SELECT COUNT(*)
+        FROM BOARD
+        WHERE STATUS = 'Y'
     </select>
 </mapper>
