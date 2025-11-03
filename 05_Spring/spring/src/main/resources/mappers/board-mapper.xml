@@ -59,5 +59,34 @@
         SELECT COUNT(*)
         FROM BOARD
         WHERE STATUS = 'Y'
+        AND BOARD_TYPE = 1
     </select>
+    <select id="getCategorys" resultMap="categoryResultMap">
+        SELECT CATEGORY_NO,
+        CATEGORY_NAME
+        FROM CATEGORY
+    </select>
+    <insert id="insertBoard" parameterType="Board">
+        INSERT
+        INTO BOARD(
+        BOARD_NO,
+        BOARD_TYPE,
+        CATEGORY_NO,
+        BOARD_TITLE,
+        BOARD_CONTENT,
+        BOARD_WRITER
+        ) VALUES(
+        SEQ_BNO.NEXTVAL,
+        #{boardType},
+        <if test="boardType == 1">
+            #{categoryNo},
+        </if>
+        <if test="boardType != 1">
+            NULL,
+        </if>
+        #{boardTitle},
+        #{boardContent},
+        #{boardWriter}
+        )
+    </insert>
 </mapper>

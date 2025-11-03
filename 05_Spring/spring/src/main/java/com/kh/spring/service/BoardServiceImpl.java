@@ -2,11 +2,13 @@ package com.kh.spring.service;
 
 import com.kh.spring.model.mapper.BoardMapper;
 import com.kh.spring.model.vo.Board;
+import com.kh.spring.model.vo.Category;
 import com.kh.spring.model.vo.PageInfo;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class BoardServiceImpl implements BoardService {
@@ -32,5 +34,15 @@ public class BoardServiceImpl implements BoardService {
     @Override
     public int selectAllBoardCount() {
         return boardMapper.selectAllBoardCount();
+    }
+
+    @Override
+    public List<Category> getCategorys() {
+        return boardMapper.getCategorys();
+    }
+
+    @Override
+    public int insertBoard(Board board) {
+        return boardMapper.insertBoard();
     }
 }

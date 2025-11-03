@@ -1,6 +1,7 @@
 package com.kh.spring.controller;
 
 import com.kh.spring.model.vo.Board;
+import com.kh.spring.model.vo.Category;
 import com.kh.spring.model.vo.PageInfo;
 import com.kh.spring.service.BoardService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -8,8 +9,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 public class BoardController {
@@ -36,5 +41,22 @@ public class BoardController {
         model.addAttribute("list", list);
 
         return "board/listView";
+    }
+
+    @GetMapping("/enrollForm.bo")
+    public String enrollForm(Model model, HttpServletRequest request) {
+        List<Category> categories = boardService.getCategorys();
+        model.addAttribute("categories", categories);
+
+        return "board/enrollForm";
+    }
+
+    //spring boot에는 spring-boot-starter-web 의존을 추가하면.
+    @PostMapping("/insert.bo")
+    public String insertBoard(Board board,
+                              @RequestParam(value = "upfile", required = false) MultipartFile upfile) {
+
+
+        int insertBoard = boardService.insertBoard(board);
     }
 }
