@@ -16,7 +16,12 @@ public interface BoardMapper {
     List<Board> selectBoardList(RowBounds rowBounds);
     int selectBoardListCount();
     int insertBoard(Board board);
+    int increaseCount(int boardNo);
+    Board selectBoardByNo(int boardNo);
+    Attachment selectAttachmentByBoardNo(int boardNo);
+    int updateBoard(Board board);
 
     //첨부파일
     int insertAttachment(Attachment attachment);
+    int deleteAttachment(int fileNo);
 }
