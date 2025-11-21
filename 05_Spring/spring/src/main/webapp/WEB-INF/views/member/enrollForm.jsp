@@ -114,6 +114,7 @@
         </form>
     </div>
 </div>
+
 <script>
     function validationCheck(){
         const pwdInputList = document.querySelectorAll("#enroll-form input[type=password]");
