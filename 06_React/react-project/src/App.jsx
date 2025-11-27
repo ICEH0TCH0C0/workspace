@@ -1,17 +1,33 @@
-
-import { useState } from 'react'
-import JavaScript from './components/JavaScript'
 import './App.css'
-import Style from './components/Style'
+import Home from './pages/Home'
+import About from './pages/About'
+import Profile from './pages/Profile'
+import { BrowserRouter, Routes, Route, Link} from 'react-router-dom'
+import NotFound from './pages/NotFound'
 
 function App() {
-  const [count, setCount] = useState(0)
+  
+// BorwserRouter : 잔체 라우팅을 관리하는 최상위 컴포넌트 
+//    -> URL변화를 추적해서 그에 맞는 페이지를 렌더링
+// Routes : Route들을 감싸서 경로를 비교하고 그중 하나를 렌더링 시키는 라우트 목록
+// Route : path와 elements로 한 페이지에 대한 규칙을 정의하는 컴포넌트
+// Link : a태그와 동일한 역할을 하지만, 실제 서버에 요청을 보내지 않고 SPA 방식으로 브라우저단에서 
+      //react-router-dom을 통한 이동
 
   return (
-    <>
-      {/* <JavaScript /> */}
-      <Style />
-    </>
+    <BrowserRouter>
+      <nav>
+        <Link to="/">홈</Link>
+        <Link to="/about">소개</Link>
+        <Link to="/profile">프로필</Link>
+      </nav>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/profile/:username" element={<Profile />} />
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+    </BrowserRouter>
   )
 }
 
