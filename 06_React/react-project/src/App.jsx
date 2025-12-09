@@ -1,17 +1,17 @@
-
-import { useState } from 'react'
-import JavaScript from './components/JavaScript'
 import './App.css'
-import Style from './components/Style'
+import { Route, BrowserRouter as Router, Routes } from 'react-router-dom'
+import HomePage from './pages/HomePage'
+import PostListPage from './pages/PostListPage'
 
 function App() {
-  const [count, setCount] = useState(0)
 
   return (
-    <>
-      {/* <JavaScript /> */}
-      <Style />
-    </>
+    <Router>
+      <Routes>
+        <Route path='/' element={<HomePage />}/>
+        <Route path="/posts" element={<PostListPage />} />
+      </Routes>
+    </Router>
   )
 }
 
