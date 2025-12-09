@@ -19,31 +19,31 @@
 </head>
 
 <body onload="init();">
-    <div class="container-fluid text-white text-center main-banner">
-        <img src="/images/banner.png" alt="메인베너">
-    </div>
+<div class="container-fluid text-white text-center main-banner">
+    <img src="/images/banner.png" alt="메인베너">
+</div>
 
-    <div class="container mt-3">
-        <h2>게시글목록</h2>
-        <div align="right">
-            <button id="add-content-btn" class="btn btn-primary" onclick="location.href='/write'">글쓰기</button>
-        </div>
-        <table class="table table-striped" id="board-table">
-            <thead align="center">
-                <tr>
-                    <th width="100">번호</th>
-                    <th>제목</th>
-                    <th width="150">글쓴이</th>
-                    <th width="150">작성일</th>
-                </tr>
-            </thead>
-            <tbody align="center">
-                <tr>
-                    <td colspan="3"><div class="spinner-border text-primary"></div></td>
-                </tr>
-            </tbody>
-        </table>
+<div class="container mt-3">
+    <h2>게시글목록</h2>
+    <div align="right">
+        <button id="add-content-btn" class="btn btn-primary" onclick="location.href='/boardEnrollForm.html'">글쓰기</button>
     </div>
+    <table class="table table-striped" id="board-table">
+        <thead align="center">
+        <tr>
+            <th width="100">번호</th>
+            <th>제목</th>
+            <th width="150">글쓴이</th>
+            <th width="150">작성일</th>
+        </tr>
+        </thead>
+        <tbody align="center">
+        <tr>
+            <td colspan="3"><div class="spinner-border text-primary"></div></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
 </body>
 
 </html>

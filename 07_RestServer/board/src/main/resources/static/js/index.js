@@ -28,8 +28,8 @@ function formatDate(date) {
 function getBoard(boardId, callback){
     $.ajax({
         url: "http://localhost:8888/api/board/" + boardId,
-        type: "get",                            
-        contentType: "application/json",       
+        type: "get",
+        contentType: "application/json",
         success: function(response) {
             console.log(response)
             callback(response)
@@ -43,8 +43,8 @@ function getBoard(boardId, callback){
 function getBoardList(callback){
     $.ajax({
         url: "http://localhost:8888/api/board",
-        type: "get",                            
-        contentType: "application/json",       
+        type: "get",
+        contentType: "application/json",
         success: function(response) {
             callback(response)
         },
@@ -61,11 +61,11 @@ function drawBoardList(boardList){
     if (boardList && boardList.length > 0) {
         boardBody.innerHTML = "";
         for(let board of boardList){
-            boardBody.innerHTML += `<tr onclick="location.href='/boardDetail/${board.boardId}'">
-                                        <td>${board.boardId}</td>
+            boardBody.innerHTML += `<tr onclick="location.href='/boardDetail/${board.board_id}'">
+                                        <td>${board.board_id}</td>
                                         <td>${board.title}</td>
-                                        <td>${board.memberEmail}</td>
-                                        <td>${formatDate(board.createAt)}</td>
+                                        <td>${board.member_email}</td>
+                                        <td>${formatDate(board.created_at)}</td>
                                     </tr>`
         }
     } else {
@@ -80,7 +80,7 @@ function insertBoard(){
 
     const formData = new FormData();
     formData.append("title", document.querySelector('#title').value)
-    formData.append("userId", document.querySelector('#userId').value)
+    formData.append("user_id", document.querySelector('#userId').value)
     formData.append("contents", document.querySelector('#contents').value)
     formData.append("upfile", document.querySelector('#upfile').files[0])
 
@@ -127,7 +127,7 @@ function updateBoard(){
         success: function(response) {
             console.log(response)
             alert("글이 성공적으로 수정되었습니다.");
-            window.location.href = "/boardDetail/" + boardId; 
+            window.location.href = "/boardDetail/" + boardId;
         },
         error: function(error) {
             alert("글 등록에 실패했습니다.");
@@ -139,7 +139,7 @@ function updateBoard(){
 function deleteBoard(){
     if(!confirm("글을 정말 삭제하시겠습니까?"))
         return;
-    
+
     const path = window.location.pathname;
     const pathParts = path.split('/');
     const boardId = pathParts[pathParts.length - 1];
@@ -150,7 +150,7 @@ function deleteBoard(){
         type: "DELETE",
         success: function(response) {
             alert("글이 성공적으로 삭제되었습니다.");
-            window.location.href = "/"; 
+            window.location.href = "/";
         },
         error: function(error) {
             alert("글 등록에 실패했습니다.");
