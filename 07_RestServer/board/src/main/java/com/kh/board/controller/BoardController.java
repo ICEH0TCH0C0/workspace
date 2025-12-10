@@ -117,7 +117,12 @@ public class BoardController {
                 request.getOrigin_name()
         );
 
-        return new ResponseEntity<>("게시글 수정완료", HttpStatus.OK);
+        if(result > 0){
+            return new ResponseEntity<>("게시글 수정 완료", HttpStatus.OK);
+        }
+        else {
+            return new ResponseEntity<>("게시글 수정 실패",  HttpStatus.BAD_REQUEST);
+        }
 
     }
 

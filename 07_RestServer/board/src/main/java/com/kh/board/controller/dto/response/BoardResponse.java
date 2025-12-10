@@ -22,7 +22,7 @@ public class BoardResponse {
         public static SimpleDto of(Board board){
             return SimpleDto.builder()
                     .board_id(board.getBoardId())
-                    .member_email(board.getMemberEmail())
+//                    .member_email(board.getMemberEmail())
                     .title(board.getTitle())
                     .created_at(board.getCreatedAt())
                     .build();
@@ -43,7 +43,7 @@ public class BoardResponse {
         public static DetailDto of(Board board){
             return DetailDto.builder()
                     .board_id(board.getBoardId())
-                    .member_email(board.getMemberEmail())
+//                    .member_email(board.getMemberEmail())
                     .title(board.getTitle())
                     .contents(board.getContents())
                     .file_name(board.getFileName())

@@ -13,6 +13,15 @@ spring:
       enabled: true
       path: /h2-console
 
+  jpa:
+    hibernate:
+      ddl-auto: create
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+        format_sql: true
+
   servlet:
     multipart:
       max-file-size: 10MB
@@ -30,3 +39,4 @@ server:
 mybatis:
   type-aliases-package: com.kh.board.entity
   mapper-locations: mappers/*.xml
+
