@@ -6,8 +6,10 @@ import com.kh.board.entity.Member;
 import java.util.List;
 
 public interface BoardService {
-
-    public List<Board> findAll();
-    public int save(Board board);
+    List<Board> findAll();
+    int save(Board board);
+    Board findOne(Long boardId);
+    int delete(Long boardId);
+    int update(Board board);
+    int patch(Long boardId, String title, String contents, String fileName);
 }
-
