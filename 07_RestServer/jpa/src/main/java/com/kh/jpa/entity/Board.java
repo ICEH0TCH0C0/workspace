@@ -5,6 +5,7 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
 
@@ -41,6 +42,7 @@ public class Board {
     private int boardCount = 0;
 
     @Column(name = "CREATE_DATE")
+    @CreationTimestamp
     private LocalDateTime createdAt;
 
     @Column(name = "STATUS", length = 1, nullable = false)

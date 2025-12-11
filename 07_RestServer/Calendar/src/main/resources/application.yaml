@@ -4,9 +4,9 @@ spring:
 
   datasource:
     hikari:
-      jdbc-url: jdbc:h2:tcp://localhost/C:\workspace\07_RestServer\H2DB\jpaDB
+      jdbc-url: jdbc:h2:tcp://localhost/C:\workspace\07_RestServer\H2DB\calendar
       driver-class-name: org.h2.Driver
-      username: jpaTestDB
+      username: calendar
       password: 1234
   h2:
     console:
@@ -27,6 +27,7 @@ spring:
 
 server:
   port: 8888
+
   servlet:
     encoding:
       charset: UTF-8
