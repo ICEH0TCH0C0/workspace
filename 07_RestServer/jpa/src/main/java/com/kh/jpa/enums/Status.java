@@ -1,4 +1,4 @@
-package com.kh.jpa.entity;
+package com.kh.jpa.enums;
 
 public enum Status {
     Y, N

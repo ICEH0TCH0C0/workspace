@@ -7,7 +7,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -18,8 +17,8 @@ public class UserController {
 
     @PostMapping
     public ResponseEntity<String> getUsers() {
-        List<User> users = userService.getUsers();
-        if(users != null) {
+        User user = userService.getUsers();
+        if(user != null) {
             return new ResponseEntity<>("Users", HttpStatus.OK);
         }
         else {

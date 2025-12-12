@@ -18,9 +18,9 @@ public class Profile {
     @Column(name = "PROFILE_ID")
     private Long profileId;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, optional = false)
     @JoinColumn(name = "USER_ID", unique = true)
-    private Member userId;
+    private Member member;
 
     @Column(name = "PROFILE_IMAGE", length = 100)
     private String profileImage;

@@ -1,21 +1,18 @@
 package com.kh.jpa.entity;
 
+import com.kh.jpa.enums.Status;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
-
-import java.time.LocalDateTime;
 
 @Entity
 @Getter
 @AllArgsConstructor
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor(access = AccessLevel.PROTECTED) // JPA 스펙상 필수
 @Table(name = "MEMBER")
-public class Member {
+public class Member extends BaseTimeEntity {
 
     @Id
     @Column(name = "USER_ID", length = 30)
@@ -31,10 +28,11 @@ public class Member {
     private String userEmail;
 
     @Column(name = "GENDER")
-    private String userGender;
+    @Enumerated(EnumType.STRING)
+    private Gender userGender;
 
     @Column(name = "AGE")
-    private int userAge;
+    private Integer userAge;
 
     @Column(name = "PHONE", length = 13)
     private String userPhone;
@@ -42,23 +40,18 @@ public class Member {
     @Column(name = "ADDRESS", length = 100)
     private String userAddress;
 
-    @Column(name = "ENROLL_DATE")
-    @CreationTimestamp
-    private LocalDateTime userEnrollDate;
-
-    @Column(name = "MODIFY_DATE")
-    @UpdateTimestamp
-    private LocalDateTime userModifiedDate;
-
     @Column(name = "STATUS", nullable = false, length = 1)
     @Enumerated(EnumType.STRING)
     private Status status = Status.Y;
 
-    @PrePersist
-    @PreUpdate
-    public void checkGender() {
-        if (this.userGender == null || (!this.userGender.equals("M") && !this.userGender.equals("F"))) {
-            throw new IllegalArgumentException("성별 오류 : M 도는 F");
-        }
+//    @PrePersist
+//    @PreUpdate
+//    public void checkGender() {
+//        if (this.userGender == null || (!this.userGender.equals("M") && !this.userGender.equals("F"))) {
+//            throw new IllegalArgumentException("성별 오류 : M 도는 F");
+//        }
+//    }
+    private enum Gender {
+        M, F
     }
 }

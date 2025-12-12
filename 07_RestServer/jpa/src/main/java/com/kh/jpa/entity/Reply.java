@@ -1,11 +1,14 @@
 package com.kh.jpa.entity;
 
+import com.kh.jpa.enums.Status;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
 
@@ -14,11 +17,13 @@ import java.time.LocalDateTime;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Table(name = "REPLY")
+@EntityListeners(AuditingEntityListener.class) // Auditing 자동으로 값을 맵핑
 public class Reply {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long replyId;
+    @Column(name = "REPLY_NO")
+    private Long replyNo;
 
     @Column(name = "REPLY_CONTENT", nullable = false, length = 400)
     private String replyContent;
@@ -31,7 +36,7 @@ public class Reply {
     @JoinColumn(name = "REPLY_WRITER", nullable = false)
     private Member replyWriter;
 
-    @CreationTimestamp
+    @CreatedDate
     @Column(name = "CREATE_DATE", nullable = false)
     private LocalDateTime replyDate;
 
