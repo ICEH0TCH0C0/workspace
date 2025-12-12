@@ -27,7 +27,7 @@ public class Notice {
     @Column(name = "NOTICE_TITLE", length = 30, nullable = false)
     private String noticeTitle;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "NOTICE_WRITER", nullable = false)
     private Member noticeWriter;
 

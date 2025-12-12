@@ -15,12 +15,12 @@ import lombok.NoArgsConstructor;
 public class BoardTag {
 
     @Id
-    @ManyToOne(fetch = FetchType.LAZY) // Cascade 제거!
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "BOARD_NO")
-    private Board boardNo; // 변수명을 boardId -> board 로 변경 (객체니까)
+    private Board boardNo;
 
     @Id
-    @ManyToOne(fetch = FetchType.LAZY) // Cascade 제거!
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "TAG_ID")
-    private Tag tagId;     // 변수명을 tagId -> tag 로 변경
+    private Tag tagId;
 }

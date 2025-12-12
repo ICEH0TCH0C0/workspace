@@ -7,6 +7,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Getter
 @AllArgsConstructor
@@ -43,6 +46,15 @@ public class Member extends BaseTimeEntity {
     @Column(name = "STATUS", nullable = false, length = 1)
     @Enumerated(EnumType.STRING)
     private Status status = Status.Y;
+
+    @OneToMany(mappedBy = "boardWriter", fetch = FetchType.LAZY)
+    private List<Board> boards = new ArrayList<>();
+
+    @OneToMany(mappedBy = "replyWriter", fetch = FetchType.LAZY)
+    private List<Reply> replies = new ArrayList<>();
+
+    @OneToMany(mappedBy = "noticeWriter", fetch = FetchType.LAZY)
+    private List<Notice> notices = new ArrayList<>();
 
 //    @PrePersist
 //    @PreUpdate

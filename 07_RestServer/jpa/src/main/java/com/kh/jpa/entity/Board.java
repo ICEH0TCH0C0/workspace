@@ -10,6 +10,8 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -51,4 +53,10 @@ public class Board {
     @Column(name = "STATUS", length = 1, nullable = false)
     @Enumerated(EnumType.STRING)
     private Status boardStatus = Status.Y;
+
+    @OneToMany(mappedBy = "boardId", fetch = FetchType.LAZY)
+    private List<Reply> replies = new ArrayList<>();
+
+    @OneToMany(mappedBy = "boardNo", fetch = FetchType.LAZY)
+    private List<BoardTag> boardTags = new ArrayList<>();
 }
