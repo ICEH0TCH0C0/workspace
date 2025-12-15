@@ -23,8 +23,6 @@ React 기반의 개인 일정 관리 웹 애플리케이션입니다.
 | **POST** | `/api/user/signup` | **회원가입** <br> 사용자의 정보를 서버 DB에 등록합니다. | `{ userId, userPwd, userName, ... }` |
 | **POST** | `/api/user/login` | **로그인** <br> ID/PW 검증 후 사용자 정보를 반환합니다. | `{ userId, userPwd }` |
 
-> **Note:** 로그인은 서버 인증을 거치며, 인증 성공 시 반환된 사용자 정보를 클라이언트의 `SessionStorage`와 `Context`에 저장하여 세션을 유지합니다.
-
 ---
 
 ## ⚛️ 2. React Client Processing
