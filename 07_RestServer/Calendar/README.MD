@@ -57,7 +57,3 @@ FullCalendar 라이브러리와 Context API를 결합하여 일정을 관리합�
 ### Backend Interface
 * **Protocol:** REST API (Fetch API)
 * **Data Format:** JSON
-
----
-
-## 📂 Folder Structure
