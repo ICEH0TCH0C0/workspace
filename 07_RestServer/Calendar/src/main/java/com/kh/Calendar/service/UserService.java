@@ -2,7 +2,9 @@ package com.kh.Calendar.service;
 
 import com.kh.Calendar.entity.User;
 
+import java.util.List;
+
 
 public interface UserService {
-    User getUsers();
+    int addUsers(User user);
 }

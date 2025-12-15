@@ -16,7 +16,7 @@ public class UserResponse {
         private String userId;
         private String userPwd;
 
-        public static LoginUserDto of(User user){
+        public LoginUserDto of(User user){
             return LoginUserDto.builder()
                     .userNo(user.getUserNo())
                     .userId(user.getUserId())

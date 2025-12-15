@@ -3,7 +3,9 @@ package com.kh.Calendar.mapper;
 import com.kh.Calendar.entity.User;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.List;
+
 @Mapper
 public interface UserMapper {
-    User getUsers();
+    int addUsers(User user);
 }
