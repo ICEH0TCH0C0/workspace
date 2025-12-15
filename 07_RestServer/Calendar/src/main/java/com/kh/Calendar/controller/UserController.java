@@ -31,4 +31,16 @@ public class UserController {
             return new ResponseEntity<>("sign-up failed", HttpStatus.NOT_FOUND);
         }
     }
+
+    @PostMapping("/login")
+    public  ResponseEntity<?> findByIdPwd(@RequestBody UserRequest.LoginUserDto request) {
+        User user = request.toEntity();
+        User result = userService.findByIdPwd(user);
+        if(result != null) {
+            return new ResponseEntity<>(result, HttpStatus.OK);
+        }
+        else {
+            return new ResponseEntity<>("login failed", HttpStatus.NOT_FOUND);
+        }
+    }
 }

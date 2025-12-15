@@ -18,4 +18,11 @@
     VALUES
     (#{userId}, #{userPwd}, #{userName}, #{userPhone}, #{userEmail})
     </insert>
+
+    <select id="findByIdPwd" resultMap="userResult">
+        SELECT *
+        FROM USERS
+        WHERE USER_ID = #{userId}
+          AND USER_PWD = #{userPwd}
+    </select>
 </mapper>

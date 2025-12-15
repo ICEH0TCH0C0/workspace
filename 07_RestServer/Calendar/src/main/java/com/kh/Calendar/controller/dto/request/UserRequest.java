@@ -27,4 +27,21 @@ public class UserRequest {
                     .build();
         }
     }
+
+    @Builder
+    @Getter
+    @Setter
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class LoginUserDto {
+        private String userId;
+        private String userPwd;
+
+        public User toEntity() {
+            return User.builder()
+                    .userId(userId)
+                    .userPwd(userPwd)
+                    .build();
+        }
+    }
 }
