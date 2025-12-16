@@ -2,23 +2,20 @@ package com.kh.jpa.entity;
 
 import com.kh.jpa.enums.Status;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import org.hibernate.annotations.CreationTimestamp;
+import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
 
 @Entity
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Table(name = "REPLY")
 @EntityListeners(AuditingEntityListener.class) // Auditing 자동으로 값을 맵핑
-public class Reply {
+public class Reply extends BaseTimeEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,19 +25,18 @@ public class Reply {
     @Column(name = "REPLY_CONTENT", nullable = false, length = 400)
     private String replyContent;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    //댓글 : 게시글 (N : 1) - 연관관계 주인
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "REF_BNO", nullable = false)
     private Board boardId;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    //댓글 : 작성자 (N : 1) - 연관관계 주인
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "REPLY_WRITER", nullable = false)
     private Member replyWriter;
 
-    @CreatedDate
-    @Column(name = "CREATE_DATE", nullable = false)
-    private LocalDateTime replyDate;
-
     @Enumerated(EnumType.STRING)
     @Column(name = "STATUS", nullable = false, length = 1)
+    @Builder.Default
     private Status replyStatus = Status.Y;
 }

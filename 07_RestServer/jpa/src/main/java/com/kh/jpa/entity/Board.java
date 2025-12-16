@@ -2,10 +2,7 @@ package com.kh.jpa.entity;
 
 import com.kh.jpa.enums.Status;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -18,6 +15,7 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Table(name = "BOARD")
+@Builder
 @EntityListeners(AuditingEntityListener.class) // Auditing 자동으로 값을 맵핑
 public class Board {
 
@@ -29,7 +27,8 @@ public class Board {
     @Column(name = "BOARD_TITLE", length = 100, nullable = false)
     private String boardTitle;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    //게시글 : 회원 (1 : N) -> 연관관계 주인
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "BOARD_WRITER", nullable = false)
     private Member boardWriter;
 
@@ -44,7 +43,9 @@ public class Board {
     private String boardChangeName;
 
     @Column(name = "COUNT")
-    private int boardCount = 0;
+    @Builder.Default
+    //@Builder.Default : 빌드패턴으로 객체 생성시 count 값이 없다면, 기본값을 사용한다.
+    private Integer boardCount = 0;
 
     @Column(name = "CREATE_DATE")
     @CreatedDate
@@ -52,6 +53,7 @@ public class Board {
 
     @Column(name = "STATUS", length = 1, nullable = false)
     @Enumerated(EnumType.STRING)
+    @Builder.Default
     private Status boardStatus = Status.Y;
 
     @OneToMany(mappedBy = "boardId", fetch = FetchType.LAZY)

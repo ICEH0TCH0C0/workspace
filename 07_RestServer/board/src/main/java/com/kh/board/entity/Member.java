@@ -15,7 +15,7 @@ import java.util.List;
 @Table(name = "MEMBER")
 @Builder
 @Entity
-public class Member {
+public class Member extends {
 
     @Id
     @Column(length = 255)

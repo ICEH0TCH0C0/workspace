@@ -11,16 +11,29 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "BOARD_TAG")
-@IdClass(BoardTagId.class)
+//@IdClass(BoardTagId.class)
 public class BoardTag {
 
+//    @Id
+//    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+//    @JoinColumn(name = "BOARD_NO")
+//    private Board boardNo;
+//
+//    @Id
+//    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+//    @JoinColumn(name = "TAG_ID")
+//    private Tag tagId;
+
     @Id
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "BOARD_TAG_ID")
+    private Long boardTagId;
+
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "BOARD_NO")
     private Board boardNo;
 
-    @Id
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "TAG_ID")
     private Tag tagId;
 }

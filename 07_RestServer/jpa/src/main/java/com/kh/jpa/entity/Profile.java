@@ -18,8 +18,10 @@ public class Profile {
     @Column(name = "PROFILE_ID")
     private Long profileId;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, optional = false)
-    @JoinColumn(name = "USER_ID", unique = true)
+    //프로필 : 회원 (1 : 1) - 연관 관계 주인으로 Profile을 사용, 반대로 해도 가능
+
+    @OneToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "USER_ID", unique = true, nullable = false)
     private Member member;
 
     @Column(name = "PROFILE_IMAGE", length = 100)

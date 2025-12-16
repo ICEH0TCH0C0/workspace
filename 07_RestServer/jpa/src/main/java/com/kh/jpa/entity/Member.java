@@ -43,6 +43,11 @@ public class Member extends BaseTimeEntity {
     @Column(name = "ADDRESS", length = 100)
     private String userAddress;
 
+    //cascade : Member 객체가 상태 자체가 삭제(변경)되면, profile에도 영향을 주겠다.
+    //orphanRemoval : Member 객체에서 profile의 참조 값이 삭제되면 실제 DB에 반영하겠다.
+    @OneToOne(mappedBy = "member", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    private Profile profile;
+
     @Column(name = "STATUS", nullable = false, length = 1)
     @Enumerated(EnumType.STRING)
     private Status status = Status.Y;
