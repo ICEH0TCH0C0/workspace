@@ -16,10 +16,10 @@ import java.time.LocalDateTime;
 public abstract class BaseTimeEntity {
 
     @CreatedDate // 여기에 생성시간을 넣겠다.
-    @Column(updatable = false, name = "ENROLL_DATE")
-    private LocalDateTime userCreatedDate;
+    @Column(updatable = false, name = "CREATE_DATE")
+    private LocalDateTime createDate;
 
     @Column(name = "MODIFY_DATE")
     @LastModifiedDate // 여기에 수정시간을 넣겠다.
-    private LocalDateTime userModifiedDate;
+    private LocalDateTime modifyDate;
 }
