@@ -113,4 +113,21 @@ public class MemberServiceImpl implements MemberService{
 
         memberRepository.delete(member);
     }
+
+    @Override
+    public List<MemberDto.Response> getMembersByName(String keyword) {
+        return memberRepository.findByUserNameContaining(keyword)
+                .stream()
+                .map((member) -> MemberDto.Response.of(
+                        member.getUserId(),
+                        member.getUserName(),
+                        member.getUserEmail(),
+                        member.getUserGender(),
+                        member.getUserAge(),
+                        member.getUserPhone(),
+                        member.getUserAddress(),
+                        member.getCreateDate(),
+                        member.getModifyDate()
+                )).toList();
+    }
 }
