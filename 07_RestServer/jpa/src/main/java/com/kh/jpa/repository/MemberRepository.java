@@ -1,6 +1,5 @@
-package com.kh.jpa.repositoty;
+package com.kh.jpa.repository;
 
-import com.kh.jpa.dto.MemberDto;
 import com.kh.jpa.entity.Member;
 
 import java.util.List;

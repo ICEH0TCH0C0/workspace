@@ -46,13 +46,16 @@ public class Member extends BaseTimeEntity {
     @OneToOne(mappedBy = "member", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private Profile profile;
 
+    //회원 : 게시글 (1 : N) OneToMany는 Lazy가 기본값.
+    //Member가 사라져도 실무에서는 Board는 그대로 남겨 놓고, Service에서 참조관계를 끊어야 한다.
+    @OneToMany(mappedBy = "boardWriter")
+    @Builder.Default
+    private List<Board> boards = new ArrayList<>();
+
     @Column(name = "STATUS", nullable = false, length = 1)
     @Enumerated(EnumType.STRING)
     @Builder.Default
     private Status status = Status.Y;
-
-    @OneToMany(mappedBy = "boardWriter", fetch = FetchType.LAZY)
-    private List<Board> boards = new ArrayList<>();
 
     @OneToMany(mappedBy = "replyWriter", fetch = FetchType.LAZY)
     private List<Reply> replies = new ArrayList<>();

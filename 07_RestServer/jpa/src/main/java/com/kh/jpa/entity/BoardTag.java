@@ -1,11 +1,10 @@
 package com.kh.jpa.entity;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.springframework.core.metrics.StartupStep;
 
+@Builder
 @Entity
 @Getter
 @AllArgsConstructor
@@ -36,4 +35,8 @@ public class BoardTag {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "TAG_ID")
     private Tag tagId;
+
+    public void changeBoard(Board board) {
+        this.boardNo = board;
+    }
 }

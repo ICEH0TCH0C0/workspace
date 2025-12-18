@@ -1,4 +1,4 @@
-package com.kh.jpa.repositoty;
+package com.kh.jpa.repository;
 
 import com.kh.jpa.entity.Member;
 import jakarta.persistence.EntityManager;

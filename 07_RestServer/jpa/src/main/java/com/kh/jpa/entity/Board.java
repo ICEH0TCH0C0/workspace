@@ -61,4 +61,25 @@ public class Board {
 
     @OneToMany(mappedBy = "boardNo", fetch = FetchType.LAZY)
     private List<BoardTag> boardTags = new ArrayList<>();
+
+    public void changeMember(Member member) {
+        this.boardWriter = member;
+
+        if(!member.getBoards().contains(this))
+            member.getBoards().add(this);
+    }
+
+    public void changeFile(String originName, String changeName) {
+        if(originName != null) this.boardOriginName = originName;
+        if(changeName != null) this.boardChangeName = changeName;
+    }
+
+    public void addTag(Tag tag){
+        BoardTag boardTag = BoardTag.builder()
+                .tagId(tag)
+                .build();
+
+        boardTag.changeBoard(this);
+        this.boardTags.add(boardTag);
+    }
 }

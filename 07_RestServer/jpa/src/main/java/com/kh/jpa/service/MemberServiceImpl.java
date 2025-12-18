@@ -2,12 +2,11 @@ package com.kh.jpa.service;
 
 import com.kh.jpa.dto.MemberDto;
 import com.kh.jpa.entity.Member;
-import com.kh.jpa.repositoty.MemberRepository;
+import com.kh.jpa.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
