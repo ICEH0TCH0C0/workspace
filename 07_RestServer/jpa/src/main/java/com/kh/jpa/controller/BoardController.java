@@ -50,11 +50,13 @@ public class BoardController {
             @PathVariable("boardId") Long boardId,
             @ModelAttribute BoardDto.Update updateBoard
     ){
-
+        BoardDto.Response response = boardService.updateBoard(boardId, updateBoard);
+        return ResponseEntity.ok(response);
     }
 
     @DeleteMapping("/{boardId}")
-    public ResponseEntity<Void> deleteBoard(@PathVariable("boardId") Long boardId) {
-
+    public ResponseEntity<String> deleteBoard(@PathVariable("boardId") Long boardId) {
+        boardService.deleteBoard(boardId);
+        return ResponseEntity.ok("Board deleted");
     }
 }

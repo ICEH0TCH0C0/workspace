@@ -120,4 +120,53 @@ public class BoardServiceImpl implements BoardService {
                 board.getCreatedAt()
         ));
     }
+
+    @Override
+    public BoardDto.Response updateBoard(Long boardId, BoardDto.Update updateDto) {
+        Board board = boardRepository.findById(boardId)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 게시글입니다."));
+
+        board.putUpdate(
+                updateDto.getBoard_title(),
+                updateDto.getBoard_content(),
+                updateDto.getBoard_change_name()
+                );
+
+        board.clearTag();
+        if (updateDto.getTags() != null && !updateDto.getTags().isEmpty()) {
+            for (String tagName : updateDto.getTags()) {
+                Tag tag = tagRepository.findByTagName(tagName)
+                        .orElseGet(() -> tagRepository.save(Tag.builder()
+                                .tagName(tagName)
+                                .build()));
+                board.addTag(tag);
+            }
+        }
+
+        List<String> tagNames = board.getBoardTags()
+                .stream()
+                .map(boardTag -> boardTag.getTagId().getTagName())
+                .toList();
+
+        return BoardDto.Response.of(
+                board.getBoardNo(),
+                board.getBoardTitle(),
+                board.getBoardContent(),
+                board.getBoardOriginName(),
+                board.getBoardChangeName(),
+                board.getBoardCount(),
+                board.getBoardWriter().getUserId(),
+                board.getBoardWriter().getUserName(),
+                board.getCreatedAt(),
+                tagNames //tag
+        );
+    }
+
+    @Override
+    public void deleteBoard(Long boardId) {
+        Board board = boardRepository.findById(boardId)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 게시글입니다."));
+        boardRepository.delete(board);
+
+    }
 }

@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -81,5 +82,17 @@ public class Board {
 
         boardTag.changeBoard(this);
         this.boardTags.add(boardTag);
+    }
+
+    public void putUpdate(String board_title,
+                          String board_content,
+                          String board_change_name){
+        this.boardTitle = board_title;
+        this.boardContent = board_content;
+        this.boardChangeName = board_change_name;
+    }
+
+    public void clearTag() {
+        this.boardTags.clear();
     }
 }

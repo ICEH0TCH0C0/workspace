@@ -34,19 +34,27 @@ public class BoardRepositoryImpl implements BoardRepository {
     @Override
     public Page<Board> findByStatus(Status status, Pageable pageable) {
 
-        String query = "select b from Board b where b.status = :status ";
+        String query = "select b from Board b where b.boardStatus = :status ";
         List<Board> boards = em.createQuery(query, Board.class)
                 .setParameter("status", status)
                 .setFirstResult((int) pageable.getOffset()) //시작위치
                 .setMaxResults(pageable.getPageSize()) //몇개를 가져올 것인가
                 .getResultList();
 
-        String countQuery = "select count(b) from Board b where b.status = :status";
+        String countQuery = "select count(b) from Board b where b.boardStatus = :status";
         Long totalCount = em.createQuery(countQuery, Long.class)
                 .setParameter("status", status)
                 .getSingleResult();
 
         //PageImpl : 페이징 정보와 함께 반환
         return new PageImpl<>(boards, pageable, totalCount);
+    }
+
+    @Override
+    public void delete(Board board) {
+        String jpql = "update Board b set b.boardStatus = :status where b.boardNo = :boardNo";
+        em.createQuery(jpql, Board.class)
+                .setParameter("status", Status.Y)
+                .executeUpdate();
     }
 }

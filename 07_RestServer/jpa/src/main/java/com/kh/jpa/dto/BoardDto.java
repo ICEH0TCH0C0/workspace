@@ -73,6 +73,7 @@ public class BoardDto {
                     .create_date(createDate)
                     .build();
         }
+
     }
 
     @Getter
@@ -80,15 +81,7 @@ public class BoardDto {
     public static class Update{
         private String board_title;
         private String board_content;
-        private String user_id;
-        private MultipartFile file;
+        private String board_change_name;
         private List<String> tags;
-
-        public Board toEntity(){
-            return Board.builder()
-                    .boardTitle(board_title)
-                    .boardContent(board_content)
-                    .build();
-        }
     }
 }
