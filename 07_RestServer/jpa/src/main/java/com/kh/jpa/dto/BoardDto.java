@@ -81,7 +81,7 @@ public class BoardDto {
     public static class Update{
         private String board_title;
         private String board_content;
-        private String board_change_name;
+        private MultipartFile file;
         private List<String> tags;
     }
 }

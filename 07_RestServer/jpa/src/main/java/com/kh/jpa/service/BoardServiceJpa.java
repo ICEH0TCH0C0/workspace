@@ -2,44 +2,33 @@ package com.kh.jpa.service;
 
 import com.kh.jpa.dto.BoardDto;
 import com.kh.jpa.entity.Board;
-import com.kh.jpa.entity.BoardTag;
 import com.kh.jpa.entity.Member;
 import com.kh.jpa.entity.Tag;
 import com.kh.jpa.enums.Status;
-import com.kh.jpa.repository.BoardRepository;
-import com.kh.jpa.repository.MemberRepository;
-import com.kh.jpa.repository.TagRepository;
+import com.kh.jpa.repository.*;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 
-//@Service
+@Service
 @RequiredArgsConstructor
-@Transactional(readOnly=true) //readOnly=true 데이터를 조회만하고, DML은 하지 않는 트랜잭션
-public class BoardServiceImpl implements BoardService {
+public class BoardServiceJpa implements BoardService{
 
-    private final MemberRepository memberRepository;
-    private final TagRepository tagRepository;
-    private final BoardRepository boardRepository;
+    private final BoardJPARepository boardJPARepository;
+    private final MemberJPARepository memberJPARepository;
+    private final TagJPARepository tagJPARepository;
     private final String FILE_PATH = "C:\\devtool\\upload";
 
     @Override
-    @Transactional
     public Long createBoard(BoardDto.Create createDto) throws IOException {
-        // 게시글 작성
-        // 작성자 찾기 -> 객체관점의 코드를 작성할 것이기 때문에 key를 직접 외래키로 insert하지 않고
-        // 작성자를 찾아서 참조관계를 만들어 준다.
-        // spring, jpa
-
-        Member member = memberRepository.findById(createDto.getUser_id())
+        Member member = memberJPARepository.findById(createDto.getUser_id())
                 .orElseThrow(() -> new EntityNotFoundException("회원을 찾을 수 없습니다"));
 
         String changeName = null;
@@ -62,56 +51,27 @@ public class BoardServiceImpl implements BoardService {
         board.changeMember(member);
         board.changeFile(originName, changeName);
 
-        if(createDto.getTags() != null && !createDto.getTags().isEmpty()) {
-            // tag가 전달됨 ["srping", "jpa"]
+        if(createDto.getFile() != null && !createDto.getFile().isEmpty()) {
             for(String tagName : createDto.getTags()) {
-                //tag를 이름으로 조회해서 없으면 새로 만들자
-                Tag tag = tagRepository.findByTagName(tagName)
-                        .orElseGet(() -> tagRepository.save(Tag.builder() //없다면 예외발생이 아닌 생성
-                                .tagName(tagName)
-                                .build()));
+                Tag tag = tagJPARepository.findByTagName(tagName)
+                        .orElseGet(() -> tagJPARepository.save(Tag.builder()
+                                .tagName(tagName).build()));
                 board.addTag(tag);
-//                BoardTag boardTag = BoardTag.builder()
-//                        .tag(tag)
-//                        .build();
-//
-//                boardTag.changeBoard(board);
             }
         }
 
-        boardRepository.save(board);
+        boardJPARepository.save(board);
         return board.getBoardNo();
     }
 
     @Override
     public BoardDto.Response getBoardDetail(Long boardId) {
-        Board board = boardRepository.findById(boardId)
-                .orElseThrow(() -> new EntityNotFoundException("게시글을 찾을 수 없습니다."));
-
-        List<String> tagNames = board.getBoardTags()
-                .stream()
-                .map(boardTag -> boardTag.getTagId().getTagName())
-                .toList();
-
-
-        return BoardDto.Response.of(
-                board.getBoardNo(),
-                board.getBoardTitle(),
-                board.getBoardContent(),
-                board.getBoardOriginName(),
-                board.getBoardChangeName(),
-                board.getBoardCount(),
-                board.getBoardWriter().getUserId(),
-                board.getBoardWriter().getUserName(),
-                board.getCreatedAt(),
-                tagNames
-        );
+        return null;
     }
 
     @Override
     public Page<BoardDto.Response> getBoardList(Pageable pageable) {
-        Page<Board> page = boardRepository.findByStatus(Status.Y, pageable);
-
+        Page<Board> page = boardJPARepository.findByBoardStatus(Status.Y, pageable);
         return page.map(board -> BoardDto.Response.ofSimple(
                 board.getBoardNo(),
                 board.getBoardTitle(),
@@ -123,9 +83,8 @@ public class BoardServiceImpl implements BoardService {
     }
 
     @Override
-    @Transactional
     public BoardDto.Response updateBoard(Long boardId, BoardDto.Update updateDto) throws IOException {
-        Board board = boardRepository.findById(boardId)
+        Board board = boardJPARepository.findById(boardId)
                 .orElseThrow(() -> new EntityNotFoundException("존재하지 않는 게시글입니다."));
 
         String originName = board.getBoardOriginName();
@@ -144,33 +103,27 @@ public class BoardServiceImpl implements BoardService {
                     .transferTo(new File(FILE_PATH + changeName));
         }
 
-        //
         board.putUpdate(
                 updateDto.getBoard_title(),
                 updateDto.getBoard_content(),
                 originName,
                 changeName
-                );
+        );
 
-        //기존 BoardTag -> 연결을 끊을 필요 없다.
-        //연결된 boardTag의 영속성을 제거한다.
         board.clearTag();
         if (updateDto.getTags() != null && !updateDto.getTags().isEmpty()) {
             for (String tagName : updateDto.getTags()) {
-                Tag tag = tagRepository.findByTagName(tagName)
-                        .orElseGet(() -> tagRepository.save(Tag.builder()
-                                .tagName(tagName)
-                                .build()));
-                board.addTag(tag); 
-                //여기서 builder를 사용하여 서비스와 boardTag 결합도 높이는 방법보다는 board와 boardTag는 이미 참조 관계이므로 상관이 없기 때문에, 
-                // board 안에 addTags를 만들어 재때 사용하는 방법이 더 좋다.
+                Tag tag = tagJPARepository.findByTagName(tagName)
+                        .orElseGet(() -> tagJPARepository.save(Tag.builder()
+                                .tagName(tagName).build()));
+                board.addTag(tag);
             }
         }
 
         List<String> tagNames = board.getBoardTags()
                 .stream()
                 .map(boardTag -> boardTag.getTagId().getTagName())
-                .toList(); //리스트로 변경
+                .toList();
 
         return BoardDto.Response.of(
                 board.getBoardNo(),
@@ -182,20 +135,20 @@ public class BoardServiceImpl implements BoardService {
                 board.getBoardWriter().getUserId(),
                 board.getBoardWriter().getUserName(),
                 board.getCreatedAt(),
-                tagNames //tag들
+                tagNames
+
         );
     }
 
     @Override
-    @Transactional
     public void deleteBoard(Long boardId) {
-        Board board = boardRepository.findById(boardId)
-                .orElseThrow(() -> new EntityNotFoundException("존재하지 않는 게시글입니다."));
+        Board board = boardJPARepository.findById(boardId)
+                .orElseThrow(() -> new EntityNotFoundException("존재하지 않는 게시글입니다"));
 
         if(board.getBoardChangeName() != null) {
             new File(FILE_PATH + board.getBoardChangeName());
         }
-        boardRepository.delete(board);
 
+        boardJPARepository.delete(board);
     }
 }

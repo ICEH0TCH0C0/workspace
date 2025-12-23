@@ -86,10 +86,13 @@ public class Board {
 
     public void putUpdate(String board_title,
                           String board_content,
-                          String board_change_name){
-        this.boardTitle = board_title;
-        this.boardContent = board_content;
-        this.boardChangeName = board_change_name;
+                          String boardOriginName,
+                          String boardChangeName
+                          ){
+        if(board_title != null) this.boardTitle = board_title;
+        if(board_content != null) this.boardContent = board_content;
+        this.changeFile(boardOriginName, boardChangeName);
+
     }
 
     public void clearTag() {
