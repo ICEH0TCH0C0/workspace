@@ -35,6 +35,9 @@ public interface BoardJPARepository extends JpaRepository<Board, Long> {
     Page<Board> findByBoardStatusAndBoardWriter(@Param("userId") List<Board> board, Pageable pageable);
 
     //특정 태그를 가진 게시글 조회
+    // ***JPQL distinct(중복 제거)을 사용한 이유 :
+    // 조인은 행을 기준으로 하기 때문에, 하나의 board가 태그 갯수만큼 조회
+    // 같은 시별자(pk)를 가진 board는 결과 리스트에 한번만 넣어라
     @Query("SELECT distinct b FROM Board b " +
             "Join b.boardTags bt " +
             "Join bt.tagId t " +
